@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect as reactUseEffect, useMemo, useState } from "react";
 import {
   AlertTriangle,
@@ -196,6 +197,9 @@ const hikes = [
     description:
       "Old-growth forest, mountain streams and Arch Rock lead to a dramatic 75–80 ft rock overhang. The trail gets considerably steeper after Arch Rock.",
     accent: "forest",
+    image: "/images/trails/alum-cave.jpg",
+    imageAlt:
+      "Rock overhang and forest stream along Alum Cave Trail in the Smokies",
     trailUrl: "https://www.nps.gov/places/alumcave.htm",
     mapUrl:
       "https://www.google.com/maps/search/?api=1&query=Alum+Cave+Trailhead+Great+Smoky+Mountains",
@@ -215,6 +219,8 @@ const hikes = [
     description:
       "An iconic Appalachian Trail overlook with a broad panorama over Catawba Valley. Arrive well before sunset; descend after dark with proper headlamps.",
     accent: "sunset",
+    image: "/images/trails/mcafee-knob.jpg",
+    imageAlt: "McAfee Knob rock ledge overlooking Appalachian ridges at sunset",
     trailUrl: "https://www.roanokecountyva.gov/mcafeeknob",
     mapUrl:
       "https://www.google.com/maps/search/?api=1&query=McAfee+Knob+Trailhead+Catawba+Virginia",
@@ -447,9 +453,15 @@ function Hikes() {
         {hikes.map((hike) => (
           <article className={`hike-card ${hike.accent}`} key={hike.id}>
             <div className="hike-art">
-              <div className="hike-lines" />
+              <Image
+                src={hike.image}
+                alt={hike.imageAlt}
+                fill
+                sizes="(max-width: 800px) 100vw, 21vw"
+                className="hike-photo"
+              />
+              <div className="hike-photo-shade" />
               <span>{hike.eyebrow}</span>
-              <Mountain size={42} />
               <div>
                 <h3>{hike.title}</h3>
                 <p>
