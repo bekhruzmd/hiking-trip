@@ -41,6 +41,12 @@ const useEffect = (effect: () => unknown, dependencies: React.DependencyList) =>
     effect();
   }, dependencies);
 
+const formatMoney = (value: number) =>
+  value.toLocaleString("en-US", {
+    minimumFractionDigits: Number.isInteger(value) ? 0 : 2,
+    maximumFractionDigits: 2,
+  });
+
 const days = [
   {
     day: "FRI",
@@ -97,7 +103,7 @@ const days = [
       {
         time: "NIGHT",
         title: "Tiny Home on the River",
-        meta: "Cosby, TN · $177",
+        meta: "Cosby, TN · $199.57 after tax",
         icon: Home,
         kind: "stay",
       },
@@ -135,7 +141,7 @@ const days = [
       {
         time: "NIGHT",
         title: "Roanoke 2BR home",
-        meta: "Roanoke area · $155",
+        meta: "Roanoke area · $175.62 after tax",
         icon: Home,
         kind: "stay",
       },
@@ -216,7 +222,7 @@ const stays = [
     subtitle: "WATERFALL RUSH",
     location: "Cosby, Tennessee",
     date: "Sep 5 → Sep 6",
-    price: 177,
+    price: 199.57,
     href: "https://www.airbnb.com/rooms/875500496054369234?check_in=2026-09-05&check_out=2026-09-06&adults=5",
     amenities: ["River setting", "Tiny home", "Near Smokies"],
     icon: Trees,
@@ -227,7 +233,7 @@ const stays = [
     subtitle: "MINIMALIST HOME",
     location: "Roanoke, Virginia area",
     date: "Sep 6 → Sep 7",
-    price: 155,
+    price: 175.62,
     href: "https://www.airbnb.com/rooms/1329701058542322746?check_in=2026-09-06&check_out=2026-09-07&adults=5",
     amenities: [
       "Mountain views",
@@ -521,7 +527,7 @@ function Lodging() {
       <SectionHead
         eyebrow="03 · WHERE WE SLEEP"
         title="Two simple mountain stays."
-        detail="$332 total lodging · $66.40 per person for the weekend."
+        detail="$375.19 total lodging · $75.04 per person for the weekend."
       />
       <div className="lodging-grid">
         {stays.map((stay, index) => {
@@ -553,7 +559,7 @@ function Lodging() {
                   <div>
                     <small>{stay.date}</small>
                     <strong>
-                      ${stay.price} total{" "}
+                      ${formatMoney(stay.price)} total{" "}
                       <span>· ${(stay.price / 5).toFixed(2)} each</span>
                     </strong>
                   </div>
@@ -581,7 +587,7 @@ function Budget() {
   const [scenario, setScenario] = useState<BudgetScenario>("expected");
   const [travelers, setTravelers] = useState(5);
   const total = scenarioTotals[scenario];
-  const perPerson = Math.round(total / travelers);
+  const perPerson = total / travelers;
   const categories = useMemo(
     () => budgetCategories.map((c) => ({ ...c, value: c[scenario] })),
     [scenario],
@@ -605,7 +611,7 @@ function Budget() {
               key={s}
             >
               {s === "worst" ? "Worst reasonable" : s}
-              <span>${scenarioTotals[s].toLocaleString()}</span>
+              <span>${formatMoney(scenarioTotals[s])}</span>
             </button>
           ))}
         </div>
@@ -614,12 +620,12 @@ function Budget() {
             <div className="budget-numbers">
               <div>
                 <span>TOTAL TRIP</span>
-                <strong key={total}>${total.toLocaleString()}</strong>
+                <strong key={total}>${formatMoney(total)}</strong>
                 <small>{scenario} case estimate</small>
               </div>
               <div>
                 <span>PER PERSON</span>
-                <strong key={perPerson}>${perPerson}</strong>
+                <strong key={perPerson}>${perPerson.toFixed(2)}</strong>
                 <small>split by {travelers}</small>
               </div>
             </div>
@@ -643,7 +649,7 @@ function Budget() {
                     {c.label}
                     {c.id === "vehicle" && <em>ESTIMATE</em>}
                   </span>
-                  <strong>${c.value}</strong>
+                  <strong>${formatMoney(c.value)}</strong>
                 </div>
               ))}
             </div>
@@ -670,12 +676,12 @@ function Budget() {
             </label>
             <div className="split-result">
               <span>Each person pays</span>
-              <strong>${perPerson}</strong>
+              <strong>${perPerson.toFixed(2)}</strong>
             </div>
             <div className="subtotals">
               <p>
                 <span>Lodging</span>
-                <b>$332</b>
+                <b>$375.19</b>
               </p>
               <p>
                 <span>Transportation</span>
@@ -857,7 +863,7 @@ export default function HomePage() {
               View itinerary <ArrowDown size={16} />
             </a>
             <a className="secondary-button" href="#budget">
-              Budget <span>~$220 / person</span>
+              Budget <span>~$229 / person</span>
             </a>
           </div>
           <dl className="hero-facts">
@@ -888,7 +894,7 @@ export default function HomePage() {
       </section>
       <section className="stat-strip" aria-label="Trip summary">
         <div>
-          <strong>$220</strong>
+          <strong>$229</strong>
           <span>Expected / person</span>
         </div>
         <div>

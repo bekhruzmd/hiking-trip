@@ -22,14 +22,14 @@ export const trip = {
 
 export const budgetCategories: BudgetCategory[] = [
   { id: 'vehicle', label: 'Kia Carnival', best: 194, expected: 210, worst: 240, color: '#90a38d' },
-  { id: 'lodging', label: 'Lodging', best: 332, expected: 332, worst: 332, color: '#d3c4a8' },
+  { id: 'lodging', label: 'Lodging', best: 375.19, expected: 375.19, worst: 375.19, color: '#d3c4a8' },
   { id: 'gas', label: 'Gas', best: 200, expected: 225, worst: 250, color: '#738b78' },
   { id: 'food', label: 'Food', best: 200, expected: 275, worst: 350, color: '#cc794f' },
   { id: 'parking', label: 'Parking + tolls', best: 15, expected: 25, worst: 40, color: '#a59d91' },
   { id: 'supplies', label: 'Misc. supplies', best: 25, expected: 26, worst: 75, color: '#5d6a62' },
 ];
 
-export const scenarioTotals: Record<BudgetScenario, number> = { best: 966, expected: 1100, worst: 1287 };
+export const scenarioTotals: Record<BudgetScenario, number> = { best: 1009.19, expected: 1143.19, worst: 1330.19 };
 
 export const routeStops = [
   { marker: 'A', title: 'Tampa', detail: 'Departure · Fri 8:00 PM', x: 20, y: 80 },
