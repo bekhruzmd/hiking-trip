@@ -1,9 +1,14 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect as reactUseEffect, useMemo, useState } from 'react';
 import { AlertTriangle, ArrowDown, BedDouble, CalendarDays, CarFront, Check, CheckCircle2, ChevronRight, CookingPot, ExternalLink, Home, LampDesk, MapPin, MapPinned, Moon, Mountain, ParkingCircle, Route, ShieldAlert, Sparkles, Sunset, Trees, Users, X } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { budgetCategories, BudgetScenario, routeStops, scenarioTotals, trip } from '@/lib/trip-data';
+
+const useEffect = (effect: () => unknown, dependencies: React.DependencyList) =>
+  reactUseEffect(() => {
+    effect();
+  }, dependencies);
 
 const days = [
   { day:'FRI', date:'SEP 04', title:'Night departure', label:'Tampa → Tennessee', tone:'night', items:[
