@@ -1,0 +1,202 @@
+/* Shared control geometry */
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+label:has(input:focus-visible) {
+  outline: 2px solid var(--forest);
+  outline-offset: 3px;
+}
+
+.site-header > * {
+  flex-shrink: 0;
+}
+
+.site-header nav {
+  align-items: center;
+}
+
+.theme-button,
+.primary-button,
+.secondary-button,
+.stretch-card button,
+.stay-bottom button,
+.scenario-bar button,
+.split-panel label button,
+.clear-button {
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.theme-button {
+  min-width: 76px;
+  height: 36px;
+  padding: 0 12px;
+}
+
+.primary-button,
+.secondary-button {
+  min-width: 148px;
+  height: 44px;
+  padding: 0 16px;
+  white-space: nowrap;
+}
+
+.primary-button svg {
+  margin-left: auto;
+}
+
+.secondary-button {
+  justify-content: space-between;
+}
+
+/* Keep repeated content aligned across a row */
+.timeline-grid,
+.hike-grid,
+.lodging-grid,
+.alert-grid {
+  align-items: stretch;
+}
+
+.day-card,
+.hike-card,
+.stay-card,
+.alert-card {
+  height: 100%;
+}
+
+.hike-body,
+.stay-body {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.hike-body > p {
+  flex: 1;
+}
+
+.ratings {
+  margin-top: auto;
+}
+
+.stay-bottom {
+  margin-top: auto;
+}
+
+.stay-bottom button {
+  display: inline-flex;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+}
+
+.stretch-card button {
+  min-width: 126px;
+  min-height: 36px;
+  padding: 0 12px;
+  white-space: nowrap;
+}
+
+/* Budget controls */
+.scenario-bar {
+  align-items: stretch;
+}
+
+.scenario-bar button {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  min-height: 38px;
+  text-align: left;
+}
+
+.scenario-bar button span {
+  float: none;
+  margin: 0;
+  align-self: center;
+}
+
+.split-panel label > span {
+  overflow: hidden;
+}
+
+.split-panel label button {
+  display: inline-flex;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  font-size: 16px;
+}
+
+.split-panel label b {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-right: 1px solid #303932;
+  border-left: 1px solid #303932;
+}
+
+.clear-button {
+  min-height: 34px;
+  padding: 0 8px;
+}
+
+.alert-top {
+  min-height: 24px;
+}
+
+@media (max-width: 800px) {
+  .site-header {
+    gap: 16px;
+  }
+
+  .hike-body,
+  .stay-body {
+    min-height: 320px;
+  }
+}
+
+@media (max-width: 600px) {
+  .theme-button {
+    min-width: 38px;
+    width: 38px;
+    padding: 0;
+  }
+
+  .hero-actions {
+    width: 100%;
+  }
+
+  .primary-button,
+  .secondary-button {
+    width: 100%;
+  }
+
+  .hike-body,
+  .stay-body {
+    min-height: 0;
+  }
+
+  .scenario-bar button {
+    display: flex;
+    min-height: 40px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .stretch-card button {
+    width: 100%;
+    min-height: 40px;
+  }
+
+  .stay-bottom {
+    align-items: center;
+  }
+}
