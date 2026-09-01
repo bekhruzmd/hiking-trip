@@ -23,7 +23,7 @@ label:has(input:focus-visible) {
 .primary-button,
 .secondary-button,
 .stretch-card button,
-.stay-bottom button,
+.stay-link,
 .scenario-bar button,
 .split-panel label button,
 .clear-button {
@@ -88,12 +88,25 @@ label:has(input:focus-visible) {
   margin-top: auto;
 }
 
-.stay-bottom button {
+.stay-link {
   display: inline-flex;
-  flex: 0 0 36px;
-  width: 36px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  flex: 0 0 auto;
   height: 36px;
+  padding: 0 11px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  color: var(--foreground);
+  background: transparent;
+  font-size: 9px;
+  font-weight: 600;
   cursor: pointer;
+}
+
+.stay-link:hover {
+  background: var(--muted);
 }
 
 .stretch-card button {
