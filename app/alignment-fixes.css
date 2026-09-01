@@ -84,6 +84,44 @@ label:has(input:focus-visible) {
   margin-top: auto;
 }
 
+.trail-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.trail-links a,
+.stretch-actions a {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  color: var(--foreground);
+  background: transparent;
+  font-size: 9px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.trail-links a:hover,
+.stretch-actions a:hover {
+  background: var(--muted);
+}
+
+.stretch-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.stretch-actions a {
+  padding: 0 10px;
+}
+
 .stay-bottom {
   margin-top: auto;
 }
@@ -207,6 +245,16 @@ label:has(input:focus-visible) {
   .stretch-card button {
     width: 100%;
     min-height: 40px;
+  }
+
+  .stretch-actions {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stretch-actions button {
+    grid-column: 1 / -1;
   }
 
   .stay-bottom {

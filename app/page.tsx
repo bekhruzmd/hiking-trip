@@ -196,6 +196,9 @@ const hikes = [
     description:
       "Old-growth forest, mountain streams and Arch Rock lead to a dramatic 75–80 ft rock overhang. The trail gets considerably steeper after Arch Rock.",
     accent: "forest",
+    trailUrl: "https://www.nps.gov/places/alumcave.htm",
+    mapUrl:
+      "https://www.google.com/maps/search/?api=1&query=Alum+Cave+Trailhead+Great+Smoky+Mountains",
   },
   {
     id: "mcafee",
@@ -212,6 +215,9 @@ const hikes = [
     description:
       "An iconic Appalachian Trail overlook with a broad panorama over Catawba Valley. Arrive well before sunset; descend after dark with proper headlamps.",
     accent: "sunset",
+    trailUrl: "https://www.roanokecountyva.gov/mcafeeknob",
+    mapUrl:
+      "https://www.google.com/maps/search/?api=1&query=McAfee+Knob+Trailhead+Catawba+Virginia",
   },
 ];
 
@@ -489,6 +495,18 @@ function Hikes() {
                   <dd>{hike.sunset}</dd>
                 </div>
               </dl>
+              <div className="trail-links">
+                <a
+                  href={hike.trailUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Trail details <ExternalLink size={13} />
+                </a>
+                <a href={hike.mapUrl} target="_blank" rel="noreferrer">
+                  Open location <MapPin size={13} />
+                </a>
+              </div>
             </div>
           </article>
         ))}
@@ -505,17 +523,33 @@ function Hikes() {
             works
           </span>
         </div>
-        <button onClick={() => setStretch(!stretch)} aria-pressed={stretch}>
-          {stretch ? (
-            <>
-              <Check size={14} /> Considering
-            </>
-          ) : (
-            <>
-              Keep as option <ChevronRight size={14} />
-            </>
-          )}
-        </button>
+        <div className="stretch-actions">
+          <a
+            href="https://www.nps.gov/thingstodo/leconte-via-alum-cave-trail.htm"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Trail details <ExternalLink size={13} />
+          </a>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Mount+LeConte+Tennessee"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Location <MapPin size={13} />
+          </a>
+          <button onClick={() => setStretch(!stretch)} aria-pressed={stretch}>
+            {stretch ? (
+              <>
+                <Check size={14} /> Considering
+              </>
+            ) : (
+              <>
+                Keep as option <ChevronRight size={14} />
+              </>
+            )}
+          </button>
+        </div>
       </article>
     </section>
   );
