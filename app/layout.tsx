@@ -16,6 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {/* Immediately apply dark class before first paint to avoid flash */}
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `document.documentElement.classList.add('dark')` }} />
+      </head>
       <body>{children}</body>
     </html>
   );
