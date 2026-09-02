@@ -86,6 +86,37 @@ label:has(input:focus-visible) {
   transform: scale(1.025);
 }
 
+.hike-grid {
+  grid-template-columns: 0.9fr 1.1fr;
+}
+
+.hike-card.flagship {
+  min-height: 450px;
+  border-color: color-mix(in srgb, var(--sunset) 50%, var(--border));
+  box-shadow: 0 24px 70px rgb(0 0 0 / 13%);
+}
+
+.hike-card.flagship .hike-art h3 {
+  font-size: 30px;
+}
+
+.hike-card.flagship .hike-photo-shade {
+  background: linear-gradient(
+    180deg,
+    rgb(6 10 8 / 22%) 0%,
+    rgb(6 10 8 / 8%) 35%,
+    rgb(6 10 8 / 86%) 100%
+  );
+}
+
+.hero-plan-meta {
+  margin: 16px 0 0;
+  color: var(--muted-foreground);
+  font: 500 9px var(--font-geist-mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
 .hike-photo-shade {
   position: absolute;
   z-index: 1;
@@ -98,6 +129,34 @@ label:has(input:focus-visible) {
   );
 }
 
+.stop-e .stop-copy {
+  display: flex;
+}
+
+.stop-f .stop-copy {
+  display: none;
+}
+
+.stop-c .marker {
+  background: var(--primary);
+}
+
+.stop-d .marker {
+  color: #fff;
+  background: var(--sunset);
+}
+
+.route-stop.placeholder .marker {
+  color: var(--muted-foreground);
+  background: var(--card);
+  border: 1px dashed var(--muted-foreground);
+  box-shadow: none;
+}
+
+.route-stop.placeholder .stop-copy {
+  border-style: dashed;
+}
+
 .hike-art > span,
 .hike-art > div:last-child {
   position: relative;
@@ -106,6 +165,27 @@ label:has(input:focus-visible) {
 
 .hike-body > p {
   flex: 1;
+}
+
+.route-badge {
+  align-self: flex-start;
+  margin-bottom: 16px;
+  padding: 6px 8px;
+  border: 1px solid color-mix(in srgb, var(--sunset) 55%, var(--border));
+  border-radius: 5px;
+  color: var(--sunset);
+  font: 600 7px var(--font-geist-mono);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.hike-category {
+  align-self: flex-start;
+  margin-bottom: 12px;
+  color: var(--muted-foreground);
+  font: 600 8px var(--font-geist-mono);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
 }
 
 .ratings {
@@ -144,6 +224,172 @@ label:has(input:focus-visible) {
   display: flex;
   align-items: center;
   gap: 7px;
+}
+
+.route-tbd-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 18px;
+  align-items: center;
+  margin-top: 18px;
+  padding: 20px;
+  border: 1px dashed var(--sunset);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--sunset) 5%, var(--card));
+}
+
+.route-tbd-card > div:nth-child(2) > p {
+  margin: 0 0 5px;
+  color: var(--sunset);
+  font: 600 8px var(--font-geist-mono);
+  letter-spacing: 0.1em;
+}
+
+.route-tbd-card h3 {
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+
+.route-tbd-card > div:nth-child(2) > span {
+  color: var(--muted-foreground);
+  font-size: 10px;
+}
+
+.route-tbd-card > button {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  color: var(--foreground);
+  background: var(--card);
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.route-tbd-card.selected > button svg {
+  transform: rotate(90deg);
+}
+
+.route-criteria {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 7px 16px;
+  margin-top: 15px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.route-criteria span {
+  color: var(--muted-foreground);
+  font-size: 9px;
+}
+
+.route-criteria strong {
+  font-size: 9px;
+}
+
+.tbd-lodging-badge {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  padding: 0 10px;
+  border: 1px dashed var(--muted-foreground);
+  border-radius: 7px;
+  color: var(--muted-foreground);
+  font: 600 8px var(--font-geist-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.decision-section {
+  padding-top: 30px;
+}
+
+.decision-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 18px;
+}
+
+.decision-card {
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+}
+
+.decision-card.in-progress {
+  border-style: dashed;
+}
+
+.decision-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.decision-title > svg {
+  color: var(--forest);
+}
+
+.decision-card.in-progress .decision-title > svg {
+  color: var(--sunset);
+}
+
+.decision-title div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.decision-title span {
+  color: var(--muted-foreground);
+  font: 600 8px var(--font-geist-mono);
+  letter-spacing: 0.1em;
+}
+
+.decision-title strong {
+  font-size: 12px;
+}
+
+.decision-card ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 20px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.decision-card.in-progress ul {
+  grid-template-columns: 1fr;
+}
+
+.decision-card li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted-foreground);
+  font-size: 10px;
+}
+
+.decision-card li svg {
+  flex: 0 0 auto;
+  color: var(--forest);
+}
+
+.open-dot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+  border: 1px solid var(--sunset);
+  border-radius: 50%;
 }
 
 .stretch-actions a {
@@ -240,6 +486,14 @@ label:has(input:focus-visible) {
   .stay-body {
     min-height: 320px;
   }
+
+  .hike-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .decision-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 600px) {
@@ -283,6 +537,19 @@ label:has(input:focus-visible) {
 
   .stretch-actions button {
     grid-column: 1 / -1;
+  }
+
+  .route-tbd-card {
+    grid-template-columns: auto 1fr;
+  }
+
+  .route-tbd-card > button {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .decision-card ul {
+    grid-template-columns: 1fr;
   }
 
   .stay-bottom {

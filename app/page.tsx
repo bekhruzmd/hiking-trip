@@ -75,7 +75,7 @@ const days = [
   {
     day: "SAT",
     date: "SEP 05",
-    title: "Recover + Smokies",
+    title: "Recovery / Waterfall Day",
     label: "Cosby / Great Smoky Mountains",
     tone: "forest",
     items: [
@@ -95,16 +95,23 @@ const days = [
         strong: true,
       },
       {
+        time: "BREAKFAST",
+        title: "Food + trail prep",
+        meta: "Easy morning before the hike",
+        icon: CookingPot,
+        kind: "rest",
+      },
+      {
         time: "AFTER REST",
-        title: "Alum Cave Bluffs",
-        meta: "4.6 mi round trip · timing flexible",
-        icon: Mountain,
+        title: "Hen Wallow Falls",
+        meta: "~4.3 mi round trip · 3–4 hr",
+        icon: Trees,
         kind: "hike",
       },
       {
         time: "NIGHT",
         title: "Tiny Home on the River",
-        meta: "Cosby, TN · $199.57 after tax",
+        meta: "Cosby, TN · shower, food, sleep · $177",
         icon: Home,
         kind: "stay",
       },
@@ -113,36 +120,43 @@ const days = [
   {
     day: "SUN",
     date: "SEP 06",
-    title: "McAfee at sunset",
-    label: "Cosby → Catawba / Roanoke",
+    title: "Summit / Adventure Day",
+    label: "Great Smoky Mountains → Kuwohi",
     tone: "sunset",
     items: [
       {
         time: "MORNING",
-        title: "Drive toward Virginia",
-        meta: "Exact departure remains flexible",
+        title: "Breakfast + chosen trailhead",
+        meta: "Summit route still being finalized",
         icon: CarFront,
         kind: "drive",
       },
       {
-        time: "4–6 HOURS",
-        title: "McAfee Knob",
-        meta: "7.5 mi · reach overlook before sunset",
-        icon: Sunset,
+        time: "ROUTE TBD",
+        title: "Summit hike to Kuwohi",
+        meta: "Target 7–10 mi if practical · do not lock mileage",
+        icon: Mountain,
         kind: "sunset",
         strong: true,
       },
       {
-        time: "AFTER DARK",
-        title: "Headlamp descent",
-        meta: "One real headlamp per person",
-        icon: LampDesk,
-        kind: "night",
+        time: "6,643 FT",
+        title: "Summit + observation tower",
+        meta: "Panoramic views · weather permitting",
+        icon: Sunset,
+        kind: "sunset",
+      },
+      {
+        time: "AFTER SUMMIT",
+        title: "Descend + food",
+        meta: "Recover before checking in",
+        icon: CookingPot,
+        kind: "rest",
       },
       {
         time: "NIGHT",
-        title: "Roanoke 2BR home",
-        meta: "Roanoke area · $175.62 after tax",
+        title: "Sunday lodging TBD",
+        meta: "Smokies / route toward Tampa · estimate only",
         icon: Home,
         kind: "stay",
       },
@@ -152,13 +166,13 @@ const days = [
     day: "MON",
     date: "SEP 07",
     title: "The long way home",
-    label: "Roanoke → Tampa",
+    label: "Smokies region → Tampa",
     tone: "return",
     items: [
       {
         time: "MORNING",
-        title: "Breakfast + reset",
-        meta: "No major hike planned",
+        title: "Breakfast + pack",
+        meta: "Recovery morning · no major hike",
         icon: CookingPot,
         kind: "rest",
       },
@@ -183,47 +197,57 @@ const days = [
 
 const hikes = [
   {
-    id: "alum",
-    eyebrow: "SATURDAY · PRIMARY",
-    title: "Alum Cave Bluffs",
-    place: "Great Smoky Mountains NP",
-    distance: "4.6 mi",
+    id: "hen-wallow",
+    eyebrow: "SATURDAY · RECOVERY DAY",
+    title: "Hen Wallow Falls",
+    place: "Cosby, Great Smoky Mountains NP",
+    category: "Waterfall / forest",
+    distance: "~4.3 mi RT",
     time: "3–4 hr",
     difficulty: "Moderate",
-    view: "8.6",
-    crowd: "Very high",
-    parking: "Difficult",
-    sunset: "Not planned",
+    scoreOneLabel: "Waterfall",
+    scoreOne: "9 / 10",
+    scoreTwoLabel: "Scenery",
+    scoreTwo: "8 / 10",
+    scoreThreeLabel: "Difficulty",
+    scoreThree: "5 / 10",
+    scoreFourLabel: "From Cosby",
+    scoreFour: "10 / 10",
     description:
-      "Old-growth forest, mountain streams and Arch Rock lead to a dramatic 75–80 ft rock overhang. The trail gets considerably steeper after Arch Rock.",
+      "A restorative forest hike through hemlock, rhododendron and hardwoods to an approximately 90-foot waterfall. Some uphill switchbacks, but intentionally the lighter day.",
     accent: "forest",
-    image: "/images/trails/alum-cave.jpg",
+    image: "/images/trails/hen-wallow-falls.jpg",
     imageAlt:
-      "Rock overhang and forest stream along Alum Cave Trail in the Smokies",
-    trailUrl: "https://www.nps.gov/places/alumcave.htm",
+      "Hen Wallow Falls cascading through dense forest in the Smokies",
+    trailUrl: "https://www.nps.gov/places/hen-wallow-falls.htm",
     mapUrl:
-      "https://www.google.com/maps/search/?api=1&query=Alum+Cave+Trailhead+Great+Smoky+Mountains",
+      "https://www.google.com/maps/search/?api=1&query=Hen+Wallow+Falls+Trailhead+Cosby+Tennessee",
   },
   {
-    id: "mcafee",
-    eyebrow: "SUNDAY · MAIN EVENT",
-    title: "McAfee Knob",
-    place: "Catawba, Virginia",
-    distance: "~7.5 mi",
-    time: "4–6 hr",
-    difficulty: "Moderate",
-    view: "9.7",
-    crowd: "High",
-    parking: "Strategy required",
-    sunset: "Goal",
+    id: "kuwohi",
+    eyebrow: "SUNDAY · FLAGSHIP SUMMIT",
+    title: "Kuwohi Summit Hike",
+    place: "Great Smoky Mountains NP · 6,643 ft",
+    category: "Mountain summit",
+    distance: "TBD",
+    time: "TBD",
+    difficulty: "Challenging",
+    scoreOneLabel: "Views",
+    scoreOne: "10 / 10",
+    scoreTwoLabel: "Summit payoff",
+    scoreTwo: "10 / 10",
+    scoreThreeLabel: "Difficulty",
+    scoreThree: "TBD",
+    scoreFourLabel: "Route planning",
+    scoreFour: "In progress",
     description:
-      "An iconic Appalachian Trail overlook with a broad panorama over Catawba Valley. Arrive well before sunset; descend after dark with proper headlamps.",
-    accent: "sunset",
-    image: "/images/trails/mcafee-knob.jpg",
-    imageAlt: "McAfee Knob rock ledge overlooking Appalachian ridges at sunset",
-    trailUrl: "https://www.roanokecountyva.gov/mcafeeknob",
+      "The trip’s main adventure: a real ascent ending at the highest point in the Smokies and its observation tower. The exact trailhead, mileage and route remain deliberately open.",
+    accent: "summit flagship",
+    image: "/images/trails/kuwohi-summit.jpg",
+    imageAlt: "Kuwohi observation tower above misty Appalachian ridges",
+    trailUrl: "https://www.nps.gov/grsm/planyourvisit/kuwohi-nfg.htm",
     mapUrl:
-      "https://www.google.com/maps/search/?api=1&query=McAfee+Knob+Trailhead+Catawba+Virginia",
+      "https://www.google.com/maps/search/?api=1&query=Kuwohi+Great+Smoky+Mountains",
   },
 ];
 
@@ -234,26 +258,22 @@ const stays = [
     subtitle: "WATERFALL RUSH",
     location: "Cosby, Tennessee",
     date: "Sep 5 → Sep 6",
-    price: 199.57,
+    price: 177,
+    confirmed: true,
     href: "https://www.airbnb.com/rooms/875500496054369234?check_in=2026-09-05&check_out=2026-09-06&adults=5",
     amenities: ["River setting", "Tiny home", "Near Smokies"],
     icon: Trees,
   },
   {
     night: "SUNDAY NIGHT",
-    title: "Roanoke 2BR Mountain Home",
-    subtitle: "MINIMALIST HOME",
-    location: "Roanoke, Virginia area",
+    title: "Sunday lodging being decided",
+    subtitle: "IN PROGRESS · ESTIMATE ONLY",
+    location: "Smokies / route toward Tampa",
     date: "Sep 6 → Sep 7",
-    price: 175.62,
-    href: "https://www.airbnb.com/rooms/1329701058542322746?check_in=2026-09-06&check_out=2026-09-07&adults=5",
-    amenities: [
-      "Mountain views",
-      "Fire pit + grill",
-      "Full kitchen",
-      "Laundry",
-      "Workspace",
-    ],
+    price: 175,
+    confirmed: false,
+    href: "",
+    amenities: ["Location TBD", "$175 expected", "Sleep + recover"],
     icon: Home,
   },
 ];
@@ -268,24 +288,38 @@ const alerts = [
   },
   {
     level: "warn",
-    icon: ParkingCircle,
-    title: "Smokies parking",
-    text: "Alum Cave is extremely crowded. A parking tag is required over 15 minutes; arrive early or investigate a shuttle.",
-    status: "Needs plan",
+    icon: Trees,
+    title: "Saturday = easy day",
+    text: "Hen Wallow Falls is intentionally the lighter recovery-day hike after the overnight drive.",
+    status: "Intentional",
   },
   {
     level: "critical",
-    icon: Sunset,
-    title: "McAfee sunset",
-    text: "The 7 AM–7 PM shuttle will not cover the post-sunset return. A legal self-parking strategy is required.",
+    icon: Route,
+    title: "Sunday summit route TBD",
+    text: "Do not lock Sunday mileage or a trailhead until the Kuwohi ascent route is finalized.",
     status: "Unresolved",
   },
   {
     level: "warn",
-    icon: LampDesk,
-    title: "Five headlamps",
-    text: "Bring one real headlamp per person. Do not rely on phone flashlights for the descent.",
-    status: "0 of 5 packed",
+    icon: ParkingCircle,
+    title: "Kuwohi parking",
+    text: "Parking can be extremely busy during Labor Day weekend. Final access depends on the chosen ascent trailhead.",
+    status: "Plan ahead",
+  },
+  {
+    level: "warn",
+    icon: ParkingCircle,
+    title: "Parking tag",
+    text: "$5 daily parking tag required when the vehicle is parked for more than 15 minutes.",
+    status: "$5 / vehicle",
+  },
+  {
+    level: "note",
+    icon: Mountain,
+    title: "Summit weather",
+    text: "Kuwohi can be dramatically colder, windier and cloudier than lower elevations. Pack a warm layer and windbreaker.",
+    status: "High elevation",
   },
   {
     level: "note",
@@ -297,23 +331,45 @@ const alerts = [
 ];
 
 const packing = [
-  "5 headlamps",
   "Hiking shoes",
-  "Hydration",
+  "Headlamps",
+  "Rain jackets",
+  "Hydration packs",
+  "Extra water",
   "Electrolytes",
-  "Trail snacks",
-  "Rain shells",
-  "Portable batteries",
+  "Hiking snacks",
   "First-aid kit",
   "Sunscreen",
   "Bug spray",
-  "Change of clothes",
-  "Toiletries",
-  "Cooler",
-  "Water",
-  "Phone cables",
+  "Battery packs",
   "Offline maps",
+  "Extra socks",
+  "Change of clothes",
+  "Light warm summit layer",
+  "Windbreaker",
+  "Cooler",
+  "Toiletries",
+  "Phone cables",
+  "Small towels",
+  "Overnight drive sleep items",
 ];
+
+const decisions = {
+  confirmed: [
+    "5 people",
+    "Kia Carnival",
+    "Friday 8 PM departure",
+    "Saturday Hen Wallow Falls",
+    "Saturday Cosby Airbnb · $177",
+    "Sunday Kuwohi summit destination",
+  ],
+  inProgress: [
+    "Exact Kuwohi ascent trail",
+    "Sunday Airbnb",
+    "Exact final rental price",
+    "Exact gas stops",
+  ],
+};
 
 function SectionHead({
   eyebrow,
@@ -339,7 +395,7 @@ function RouteMap() {
   return (
     <div
       className="route-map"
-      aria-label="Stylized route map from Tampa to the Smokies, McAfee Knob, Roanoke, and back to Tampa"
+      aria-label="Stylized route map from Tampa to Cosby, Hen Wallow Falls, Kuwohi, and back to Tampa"
     >
       <div className="map-topline">
         <span>
@@ -351,7 +407,7 @@ function RouteMap() {
         className="route-svg"
         viewBox="0 0 100 100"
         role="img"
-        aria-label="Five-stop trip route"
+        aria-label="Six-stop Smokies trip route"
       >
         <path
           className="contour c1"
@@ -367,16 +423,16 @@ function RouteMap() {
         />
         <path
           className="route-shadow"
-          d="M20 80 C31 72 34 51 47 43 C58 37 65 25 75 23 C79 24 82 31 84 38 C77 61 57 83 30 86"
+          d="M20 80 C31 69 38 49 48 38 C52 38 54 43 57 45 C62 39 66 31 69 28 C69 42 64 53 59 59 C53 72 43 83 30 86"
         />
         <path
           className="route-line"
-          d="M20 80 C31 72 34 51 47 43 C58 37 65 25 75 23 C79 24 82 31 84 38 C77 61 57 83 30 86"
+          d="M20 80 C31 69 38 49 48 38 C52 38 54 43 57 45 C62 39 66 31 69 28 C69 42 64 53 59 59 C53 72 43 83 30 86"
         />
       </svg>
       {routeStops.map((stop) => (
         <div
-          className={`route-stop stop-${stop.marker.toLowerCase()}`}
+          className={`route-stop stop-${stop.marker.toLowerCase()} ${"placeholder" in stop ? "placeholder" : ""}`}
           style={{ left: `${stop.x}%`, top: `${stop.y}%` }}
           key={stop.marker}
         >
@@ -441,13 +497,13 @@ function Timeline() {
 }
 
 function Hikes() {
-  const [stretch, setStretch] = useState(false);
+  const [routeOpen, setRouteOpen] = useState(false);
   return (
     <section className="content-section" id="hikes">
       <SectionHead
         eyebrow="02 · TRAILS"
-        title="Two hikes. One stretch call."
-        detail="The plan protects recovery on Saturday and keeps Sunday’s sunset objective explicit."
+        title="Waterfall recovery. Summit payoff."
+        detail="Saturday stays intentionally lighter. Sunday is the flagship hike, with the exact Kuwohi ascent still under active review."
       />
       <div className="hike-grid">
         {hikes.map((hike) => (
@@ -471,6 +527,12 @@ function Hikes() {
               </div>
             </div>
             <div className="hike-body">
+              <span className="hike-category">{hike.category}</span>
+              {hike.id === "kuwohi" && (
+                <span className="route-badge">
+                  Route TBD — do not finalize mileage yet
+                </span>
+              )}
               <div className="hike-metrics">
                 <div>
                   <span>DISTANCE</span>
@@ -488,23 +550,20 @@ function Hikes() {
               <p>{hike.description}</p>
               <dl className="ratings">
                 <div>
-                  <dt>View score</dt>
-                  <dd>
-                    {hike.view}
-                    <small>/ 10</small>
-                  </dd>
+                  <dt>{hike.scoreOneLabel}</dt>
+                  <dd>{hike.scoreOne}</dd>
                 </div>
                 <div>
-                  <dt>Crowd level</dt>
-                  <dd>{hike.crowd}</dd>
+                  <dt>{hike.scoreTwoLabel}</dt>
+                  <dd>{hike.scoreTwo}</dd>
                 </div>
                 <div>
-                  <dt>Parking</dt>
-                  <dd>{hike.parking}</dd>
+                  <dt>{hike.scoreThreeLabel}</dt>
+                  <dd>{hike.scoreThree}</dd>
                 </div>
                 <div>
-                  <dt>Sunset</dt>
-                  <dd>{hike.sunset}</dd>
+                  <dt>{hike.scoreFourLabel}</dt>
+                  <dd>{hike.scoreFour}</dd>
                 </div>
               </dl>
               <div className="trail-links">
@@ -523,45 +582,32 @@ function Hikes() {
           </article>
         ))}
       </div>
-      <article className={`stretch-card ${stretch ? "selected" : ""}`}>
+      <article className={`route-tbd-card ${routeOpen ? "selected" : ""}`}>
         <div className="stretch-mark">
-          <Sparkles size={18} />
+          <Route size={18} />
         </div>
         <div>
-          <p>STRETCH OPTION · SATURDAY</p>
-          <h3>Mt. LeConte via Alum Cave</h3>
+          <p>ROUTE TBD · DO NOT FINALIZE MILEAGE YET</p>
+          <h3>Kuwohi ascent route being finalized</h3>
           <span>
-            10 miles round trip · challenging · only if fully rested and timing
-            works
+            Target: challenging but realistic · roughly 7–10 miles total if
+            practical · scenic · ends at Kuwohi summit
           </span>
+          {routeOpen && (
+            <div className="route-criteria">
+              <span>Chosen trailhead</span>
+              <strong>TBD</strong>
+              <span>Final mileage</span>
+              <strong>TBD</strong>
+              <span>Decision rule</span>
+              <strong>Avoid 15+ mile one-way routes</strong>
+            </div>
+          )}
         </div>
-        <div className="stretch-actions">
-          <a
-            href="https://www.nps.gov/thingstodo/leconte-via-alum-cave-trail.htm"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Trail details <ExternalLink size={13} />
-          </a>
-          <a
-            href="https://www.google.com/maps/search/?api=1&query=Mount+LeConte+Tennessee"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Location <MapPin size={13} />
-          </a>
-          <button onClick={() => setStretch(!stretch)} aria-pressed={stretch}>
-            {stretch ? (
-              <>
-                <Check size={14} /> Considering
-              </>
-            ) : (
-              <>
-                Keep as option <ChevronRight size={14} />
-              </>
-            )}
-          </button>
-        </div>
+        <button onClick={() => setRouteOpen(!routeOpen)} aria-expanded={routeOpen}>
+          {routeOpen ? "Hide criteria" : "View route criteria"}
+          <ChevronRight size={14} />
+        </button>
       </article>
     </section>
   );
@@ -572,8 +618,8 @@ function Lodging() {
     <section className="content-section" id="stays">
       <SectionHead
         eyebrow="03 · WHERE WE SLEEP"
-        title="Two simple mountain stays."
-        detail="$375.19 total lodging · $75.04 per person for the weekend."
+        title="One stay locked. One still open."
+        detail="Saturday is confirmed at $177 total. Sunday carries a $175 planning estimate until the group books it."
       />
       <div className="lodging-grid">
         {stays.map((stay, index) => {
@@ -588,7 +634,7 @@ function Lodging() {
               <div className="stay-body">
                 <div className="stay-label">
                   <span>{stay.night}</span>
-                  <span>1 NIGHT</span>
+                  <span>{stay.confirmed ? "CONFIRMED" : "TBD"}</span>
                 </div>
                 <h3>{stay.title}</h3>
                 <p className="stay-subtitle">{stay.subtitle}</p>
@@ -605,20 +651,26 @@ function Lodging() {
                   <div>
                     <small>{stay.date}</small>
                     <strong>
-                      ${formatMoney(stay.price)} total{" "}
+                      {stay.confirmed
+                        ? `$${formatMoney(stay.price)} total`
+                        : `$${formatMoney(stay.price)} expected`}{" "}
                       <span>· ${(stay.price / 5).toFixed(2)} each</span>
                     </strong>
                   </div>
-                  <a
-                    className="stay-link"
-                    href={stay.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`Open ${stay.title} on Airbnb`}
-                  >
-                    <span>Open Airbnb</span>
-                    <ExternalLink size={15} />
-                  </a>
+                  {stay.confirmed ? (
+                    <a
+                      className="stay-link"
+                      href={stay.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`Open ${stay.title} on Airbnb`}
+                    >
+                      <span>Open Airbnb</span>
+                      <ExternalLink size={15} />
+                    </a>
+                  ) : (
+                    <span className="tbd-lodging-badge">Not booked</span>
+                  )}
                 </div>
               </div>
             </article>
@@ -641,13 +693,16 @@ function Budget() {
   const transport = categories
     .filter((c) => ["vehicle", "gas", "parking"].includes(c.id))
     .reduce((a, c) => a + c.value, 0);
+  const lodging = categories
+    .filter((c) => ["saturday_lodging", "sunday_lodging"].includes(c.id))
+    .reduce((a, c) => a + c.value, 0);
   return (
     <section className="budget-section" id="budget">
       <div className="content-section budget-inner">
         <SectionHead
-          eyebrow="04 · MONEY"
+          eyebrow="05 · MONEY"
           title="The whole trip, split cleanly."
-          detail="Static planning estimates. Rental taxes and possible extra fees are not finalized."
+          detail="Sunday lodging and the final rental price remain estimates. Every scenario still updates automatically for the group size."
         />
         <div className="scenario-bar" role="group" aria-label="Budget scenario">
           {(["best", "expected", "worst"] as BudgetScenario[]).map((s) => (
@@ -694,6 +749,7 @@ function Budget() {
                     <i style={{ background: c.color }} />
                     {c.label}
                     {c.id === "vehicle" && <em>ESTIMATE</em>}
+                    {c.id === "sunday_lodging" && <em>NOT BOOKED</em>}
                   </span>
                   <strong>${formatMoney(c.value)}</strong>
                 </div>
@@ -727,7 +783,7 @@ function Budget() {
             <div className="subtotals">
               <p>
                 <span>Lodging</span>
-                <b>$375.19</b>
+                <b>${formatMoney(lodging)}</b>
               </p>
               <p>
                 <span>Transportation</span>
@@ -752,13 +808,59 @@ function Budget() {
   );
 }
 
+function DecisionStatus() {
+  return (
+    <section className="content-section decision-section" id="decisions">
+      <SectionHead
+        eyebrow="04 · DECISION STATUS"
+        title="What’s locked. What still moves."
+        detail="The destination is clear; the group still has two meaningful booking and route decisions to finish."
+      />
+      <div className="decision-grid">
+        <article className="decision-card confirmed">
+          <div className="decision-title">
+            <CheckCircle2 size={18} />
+            <div>
+              <span>CONFIRMED</span>
+              <strong>{decisions.confirmed.length} decisions locked</strong>
+            </div>
+          </div>
+          <ul>
+            {decisions.confirmed.map((item) => (
+              <li key={item}>
+                <Check size={13} /> {item}
+              </li>
+            ))}
+          </ul>
+        </article>
+        <article className="decision-card in-progress">
+          <div className="decision-title">
+            <Route size={18} />
+            <div>
+              <span>IN PROGRESS</span>
+              <strong>{decisions.inProgress.length} items to resolve</strong>
+            </div>
+          </div>
+          <ul>
+            {decisions.inProgress.map((item) => (
+              <li key={item}>
+                <span className="open-dot" /> {item}
+              </li>
+            ))}
+          </ul>
+        </article>
+      </div>
+    </section>
+  );
+}
+
 function Logistics() {
   return (
     <section className="content-section" id="logistics">
       <SectionHead
-        eyebrow="05 · DO NOT MISS"
-        title="Five things can make or break the weekend."
-        detail="Resolve the parking and rental items before departure. The sleep and headlamp rules are fixed."
+        eyebrow="06 · DO NOT MISS"
+        title="Seven things can make or break the weekend."
+        detail="Saturday recovery is fixed. Sunday’s route, parking approach, summit weather and lodging still need active planning."
       />
       <div className="alert-grid">
         {alerts.map((alert) => {
@@ -782,9 +884,9 @@ function Logistics() {
       <div className="parking-note">
         <AlertTriangle size={18} />
         <p>
-          <strong>McAfee parking:</strong> Route 311 roadside parking is
-          prohibited. Main trailhead capacity is limited, and alternate legal
-          parking adds distance. Do not improvise parking at sunset.
+          <strong>Kuwohi access:</strong> The park has no entrance fee and the
+          observation tower is free, but a $5 daily parking tag is required for
+          stops longer than 15 minutes. The final trailhead remains TBD.
         </p>
       </div>
     </section>
@@ -796,9 +898,10 @@ function Packing() {
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {
     try {
-      setChecked(
-        JSON.parse(localStorage.getItem("mountain-run-packing") || "[]"),
-      );
+      const saved = JSON.parse(
+        localStorage.getItem("mountain-run-packing") || "[]",
+      ) as string[];
+      setChecked(saved.filter((item) => packing.includes(item)));
     } catch {}
     setLoaded(true);
   }, []);
@@ -815,7 +918,7 @@ function Packing() {
       <div className="content-section">
         <div className="packing-head">
           <div>
-            <p className="section-kicker">06 · PACKING</p>
+            <p className="section-kicker">07 · PACKING</p>
             <h2>
               Ready means {packing.length}/{packing.length}.
             </h2>
@@ -901,15 +1004,15 @@ export default function HomePage() {
           <h1>{trip.title}</h1>
           <p className="route-title">{trip.subtitle}</p>
           <p className="lede">
-            Two mountain hikes. Two overnight stays. One ambitious loop through
-            the southern Appalachians.
+            A recovery-day waterfall, a flagship summit ascent, and one focused
+            Smokies weekend with the route still being planned honestly.
           </p>
           <div className="hero-actions">
             <a className="primary-button" href="#itinerary">
               View itinerary <ArrowDown size={16} />
             </a>
             <a className="secondary-button" href="#budget">
-              Budget <span>~$229 / person</span>
+              Budget <span>~$223 / person</span>
             </a>
           </div>
           <dl className="hero-facts">
@@ -935,25 +1038,28 @@ export default function HomePage() {
               <dd>{trip.vehicle}</dd>
             </div>
           </dl>
+          <p className="hero-plan-meta">
+            2 main hikes · 1 confirmed Airbnb · 1 Airbnb TBD
+          </p>
         </div>
         <RouteMap />
       </section>
       <section className="stat-strip" aria-label="Trip summary">
         <div>
-          <strong>$229</strong>
-          <span>Expected / person</span>
-        </div>
-        <div>
-          <strong>{trip.routeMiles}</strong>
-          <span>Approx. road miles</span>
-        </div>
-        <div>
           <strong>2</strong>
-          <span>Primary hikes</span>
+          <span>Hikes</span>
         </div>
         <div>
           <strong>5</strong>
-          <span>Friends</span>
+          <span>Travelers</span>
+        </div>
+        <div>
+          <strong>6,643 ft</strong>
+          <span>Summit</span>
+        </div>
+        <div>
+          <strong>~$223</strong>
+          <span>Expected / person</span>
         </div>
       </section>
       <section className="content-section" id="itinerary">
@@ -966,6 +1072,7 @@ export default function HomePage() {
       </section>
       <Hikes />
       <Lodging />
+      <DecisionStatus />
       <Budget />
       <Logistics />
       <Packing />
@@ -976,7 +1083,7 @@ export default function HomePage() {
           </span>
           <p>
             <strong>Labor Day Mountain Run</strong>
-            <small>Tampa → Smokies → McAfee Knob → Tampa</small>
+            <small>Tampa → Great Smoky Mountains → Tampa</small>
           </p>
         </div>
         <p>Sept 4–7, 2026 · Plan responsibly. Hike safely.</p>
