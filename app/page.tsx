@@ -1,26 +1,19 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { useEffect as reactUseEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from 'react';
 import {
-  AlertCircle,
-  AlertTriangle,
   ArrowDown,
   BedDouble,
   CalendarDays,
   CarFront,
   Check,
   CheckCircle2,
-  ChevronRight,
   Clock,
-  Compass,
-  CookingPot,
+  CloudSun,
+  Copy,
   ExternalLink,
-  Eye,
-  Filter,
   Footprints,
   Home,
-  Layers,
   MapPin,
   MapPinned,
   Moon,
@@ -28,297 +21,194 @@ import {
   ParkingCircle,
   Route,
   ShieldAlert,
-  ShieldCheck,
-  Sparkles,
+  Sunrise,
   Sunset,
-  ThumbsUp,
   Trees,
   Users,
   X,
-} from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
+} from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   budgetCategories,
   BudgetScenario,
   routeStops,
-  saturdayCandidates,
-  SaturdayCandidate,
   trip,
-} from "@/lib/trip-data";
+} from '@/lib/trip-data';
 
-const useEffect = (effect: () => unknown, dependencies: React.DependencyList) =>
-  reactUseEffect(() => {
-    effect();
-  }, dependencies);
-
-const formatMoney = (value: number) =>
-  value.toLocaleString("en-US", {
-    minimumFractionDigits: Number.isInteger(value) ? 0 : 2,
-    maximumFractionDigits: 2,
-  });
+const money = (value: number) =>
+  value.toLocaleString('en-US', { maximumFractionDigits: 0 });
+const budgetScenarios: BudgetScenario[] = ['best', 'expected', 'high'];
+const hotelMap =
+  'https://www.google.com/maps/search/?api=1&query=4236+Parkway+Pigeon+Forge+TN+37863';
+const kuwohiMap =
+  'https://www.google.com/maps/search/?api=1&query=Kuwohi+Observation+Tower+Great+Smoky+Mountains';
 
 const days = [
   {
-    day: "FRI",
-    date: "SEP 04",
-    title: "Night departure",
-    label: "Tampa → Tennessee",
-    tone: "night",
+    day: 'FRI',
+    date: 'SEP 04',
+    title: 'The Night Drive',
+    label: 'Tampa → Tennessee',
+    tone: 'night',
     items: [
-      {
-        time: "8:00 PM",
-        title: "Leave Tampa",
-        meta: "Kia Carnival · 3 travelers",
-        icon: CarFront,
-        kind: "drive",
-      },
-      {
-        time: "OVERNIGHT",
-        title: "Drive north",
-        meta: "Rotate alert drivers · breaks required",
-        icon: Moon,
-        kind: "night",
-      },
+      ['8:00 PM', 'Leave Tampa', '3 travelers · Toyota Camry Hybrid', CarFront],
+      [
+        'OVERNIGHT',
+        'Highway drive north',
+        'Driver rotations · gas and bathroom stops',
+        Moon,
+      ],
+      [
+        'PASSENGERS',
+        'Sleep and rest',
+        'Pillows, blankets and eye masks',
+        BedDouble,
+      ],
+      [
+        '6–8 AM',
+        'Expected Pigeon Forge area arrival',
+        'Approximate only · never speed to make sunrise',
+        Sunrise,
+      ],
     ],
   },
   {
-    day: "SAT",
-    date: "SEP 05",
-    title: "Recovery & Trail Choice",
-    label: "Cosby / Great Smoky Mountains",
-    tone: "forest",
+    day: 'SAT',
+    date: 'SEP 05',
+    title: 'Sunrise → Recovery → Sunset',
+    label: 'Kuwohi / Pigeon Forge / Andrews Bald',
+    tone: 'sunset',
     items: [
-      {
-        time: "MORNING",
-        title: "Arrive in Tennessee",
-        meta: "Cosby basecamp arrival",
-        icon: MapPin,
-        kind: "drive",
-      },
-      {
-        time: "4–5 HOURS",
-        title: "Mandatory recovery sleep",
-        meta: "Real rest before any trail exertion",
-        icon: BedDouble,
-        kind: "sleep",
-        strong: true,
-      },
-      {
-        time: "BREAKFAST",
-        title: "Food + group trail choice",
-        meta: "Review 5 researched candidate options below",
-        icon: CookingPot,
-        kind: "rest",
-      },
-      {
-        time: "AFTER REST",
-        title: "Saturday Hike Option",
-        meta: "Select candidate below (Hen Wallow, Mouse Creek, Grotto, Laurel, Andrews Bald)",
-        icon: Trees,
-        kind: "hike",
-      },
-      {
-        time: "NIGHT",
-        title: "Tiny Home on the River",
-        meta: "Cosby, TN · shower, food, sleep · $177",
-        icon: Home,
-        kind: "stay",
-      },
+      [
+        'BEST EFFORT',
+        'Kuwohi sunrise',
+        'Only if timing, weather and conditions allow',
+        Sunrise,
+      ],
+      [
+        'LATE MORNING',
+        'Return to 4236 Parkway',
+        'Ask for free early check-in around noon',
+        Home,
+      ],
+      [
+        'MIDDAY',
+        'Sleep / recovery',
+        'Rest is part of the itinerary',
+        BedDouble,
+      ],
+      [
+        'EVENING',
+        'Andrews Bald via Forney Ridge',
+        'Relaxed sunset hike · headlamp return',
+        Sunset,
+      ],
     ],
   },
   {
-    day: "SUN",
-    date: "SEP 06",
-    title: "Mount LeConte Summit Day",
-    label: "Newfound Gap Rd → Mt. LeConte Peak",
-    tone: "sunset",
+    day: 'SUN',
+    date: 'SEP 06',
+    title: 'The Summit Day',
+    label: 'Real mountain ascent → Kuwohi',
+    tone: 'forest',
     items: [
-      {
-        time: "6:30 AM",
-        title: "Drive to Alum Cave Trailhead",
-        meta: "Must arrive early before parking lot fills",
-        icon: CarFront,
-        kind: "drive",
-      },
-      {
-        time: "11.0 MI RT",
-        title: "Ascend Alum Cave Trail",
-        meta: "Arch Rock (1.4 mi) → Alum Cave Bluffs (2.3 mi) → Ledge cables",
-        icon: Mountain,
-        kind: "sunset",
-        strong: true,
-      },
-      {
-        time: "6,593 FT",
-        title: "Mount LeConte & Cliff Tops",
-        meta: "Historic LeConte Lodge + 360° summit views",
-        icon: Sunset,
-        kind: "sunset",
-      },
-      {
-        time: "AFTER SUMMIT",
-        title: "Descend + celebrate",
-        meta: "~6–8 hr total hike time · recovery meal",
-        icon: CookingPot,
-        kind: "rest",
-      },
-      {
-        time: "NIGHT",
-        title: "Sunday lodging TBD",
-        meta: "Smokies / route toward Tampa · estimate only",
-        icon: Home,
-        kind: "stay",
-      },
+      [
+        'MORNING',
+        'Breakfast + selected trailhead',
+        'Exact route and trailhead remain TBD',
+        Route,
+      ],
+      [
+        'BIG HIKE',
+        'Legitimate climb from lower elevation',
+        'Scenic, challenging and realistic as a day hike',
+        Footprints,
+      ],
+      [
+        '6,643 FT',
+        'Reach Kuwohi Summit',
+        'Observation tower · photos · rest · scenery',
+        Mountain,
+      ],
+      ['AFTER HIKE', 'Descend + recover', 'Food, hotel and rest', Home],
     ],
   },
   {
-    day: "MON",
-    date: "SEP 07",
-    title: "The long way home",
-    label: "Smokies region → Tampa",
-    tone: "return",
+    day: 'MON',
+    date: 'SEP 07',
+    title: 'Homebound',
+    label: 'Pigeon Forge → Tampa',
+    tone: 'return',
     items: [
-      {
-        time: "MORNING",
-        title: "Breakfast + pack",
-        meta: "Recovery morning · no major hike",
-        icon: CookingPot,
-        kind: "rest",
-      },
-      {
-        time: "DAYTIME",
-        title: "Return to Tampa",
-        meta: "Drive time is intentionally flexible",
-        icon: Route,
-        kind: "drive",
-        strong: true,
-      },
-      {
-        time: "RENTAL",
-        title: "Return Kia Carnival",
-        meta: "Confirm return window avoids extra day",
-        icon: CheckCircle2,
-        kind: "alert",
-      },
+      [
+        'MORNING',
+        'Breakfast, shower and pack',
+        'No hike · calm departure morning',
+        Home,
+      ],
+      ['10:00 AM', 'Depart Pigeon Forge', 'Toyota Camry Hybrid', CarFront],
+      [
+        'DAYTIME',
+        'Road trip south',
+        'No major detours unless added later',
+        Route,
+      ],
+      ['HOME', 'Arrive in Tampa', 'Trip complete', CheckCircle2],
     ],
   },
-];
+] as const;
 
-const stays = [
-  {
-    night: "SATURDAY NIGHT",
-    title: "Tiny Home on the River",
-    subtitle: "RIVER BASECAMP",
-    location: "Cosby, Tennessee",
-    date: "Sep 5 → Sep 6",
-    price: 177,
-    confirmed: true,
-    href: "https://www.airbnb.com/rooms/875500496054369234?check_in=2026-09-05&check_out=2026-09-06&adults=3",
-    amenities: ["River setting", "Tiny home", "Near Smokies"],
-    icon: Trees,
-  },
-  {
-    night: "SUNDAY NIGHT",
-    title: "Sunday lodging being decided",
-    subtitle: "IN PROGRESS · ESTIMATE ONLY",
-    location: "Smokies / route toward Tampa",
-    date: "Sep 6 → Sep 7",
-    price: 175,
-    confirmed: false,
-    href: "",
-    amenities: ["Location TBD", "$175 expected", "Sleep + recover"],
-    icon: Home,
-  },
+const packing = [
+  '3 headlamps',
+  'Hiking shoes',
+  'Water / hydration',
+  'Electrolytes',
+  'Trail food',
+  'Rain jackets',
+  'Warm layers',
+  'Windbreakers',
+  'Power banks',
+  'Offline maps',
+  'First-aid kit',
+  'Sunscreen',
+  'Bug spray',
+  'Extra socks',
+  'Change of clothes',
+  'Toiletries',
+  'Car chargers',
+  'Optional gloves',
+  '2–3L water per person for Sunday',
+  'Substantial summit snacks',
+  'Pillows',
+  'Blankets',
+  'Comfortable drive clothes',
+  'Eye masks',
 ];
 
 const alerts = [
-  {
-    level: "critical",
-    icon: Moon,
-    title: "Overnight drive",
-    text: "Friday’s 8 PM departure makes Saturday recovery sleep mandatory before hiking.",
-    status: "Non-negotiable",
-  },
-  {
-    level: "critical",
-    icon: ParkingCircle,
-    title: "Alum Cave parking by 7:00 AM",
-    text: "The Alum Cave Trailhead parking lot fills completely before 7:30 AM on Labor Day Weekend. 6:00 AM wake-up & early drive required.",
-    status: "Arrive Early",
-  },
-  {
-    level: "critical",
-    icon: ShieldAlert,
-    title: "Ledge hand-cables on LeConte",
-    text: "The upper section of Alum Cave Trail traverses narrow stone ledges along steep bluffs with steel hand-cables. Take steady footing.",
-    status: "Strenuous Trail",
-  },
-  {
-    level: "warn",
-    icon: Trees,
-    title: "Saturday trail choice open",
-    text: "Review the 5 researched Saturday trails below (0 to 60 min from Cosby) and choose the right recovery effort for the crew.",
-    status: "5 Candidates",
-  },
-  {
-    level: "warn",
-    icon: ParkingCircle,
-    title: "Park parking tag",
-    text: "$5 daily parking tag required when the vehicle is parked anywhere in the park for more than 15 minutes.",
-    status: "$5 / vehicle",
-  },
-  {
-    level: "note",
-    icon: Mountain,
-    title: "LeConte summit weather (6,593 ft)",
-    text: "Mount LeConte can be 15–20°F colder and windier than lower elevations. Pack a warm mid-layer, windbreaker, and extra water.",
-    status: "High elevation",
-  },
-  {
-    level: "note",
-    icon: CarFront,
-    title: "Rental return",
-    text: "Confirm taxes, fees and the Kia Carnival return time so the trip does not trigger another rental day.",
-    status: "Not finalized",
-  },
-];
-
-const packing = [
-  "Hiking boots / trail shoes",
-  "Headlamps / flashlights",
-  "Rain jackets / shell",
-  "Hydration packs (3L+ for LeConte)",
-  "Electrolytes / salt tablets",
-  "High-calorie trail snacks",
-  "First-aid kit & blister pads",
-  "Sunscreen & sunglasses",
-  "Bug spray",
-  "Power banks & cables",
-  "Offline maps (AllTrails / Gaia)",
-  "Extra wool hiking socks",
-  "Change of dry clothes",
-  "Warm summit fleece / jacket",
-  "Windbreaker",
-  "Trekking poles (recommended)",
-  "Cooler & recovery drinks",
-  "Toiletries & small towels",
-  "Overnight drive sleep pillows",
-];
-
-const decisions = {
-  confirmed: [
-    "3 people",
-    "Kia Carnival rental",
-    "Friday 8 PM departure",
-    "Saturday Cosby Airbnb · $177",
-    "Sunday flagship summit: Mount LeConte via Alum Cave Trail (6,593 ft)",
+  ['Overnight drive', 'Do not speed to make sunrise.', Moon],
+  ['Sunrise', 'Weather and arrival-time dependent.', Sunrise],
+  ['Early check-in', 'Not guaranteed. Ask for free access around noon.', Clock],
+  ['Recovery', 'Saturday rest is mandatory.', BedDouble],
+  ['Kuwohi parking', 'Labor Day weekend may be extremely busy.', ParkingCircle],
+  [
+    'Parking tag',
+    '$5 per day per vehicle when parked longer than 15 minutes.',
+    ShieldAlert,
   ],
-  inProgress: [
-    "Saturday trail selection (5 candidate options researched on site)",
-    "Sunday Airbnb lodging location",
-    "Exact gas stops",
+  ['Andrews Bald', 'The return is uphill and will be after dark.', Footprints],
+  [
+    'Headlamps',
+    'One real headlamp per traveler; do not rely on phone flashlights.',
+    Moon,
   ],
-};
+  ['Sunday route', 'The ascent route and trailhead are not finalized.', Route],
+  [
+    'Kuwohi weather',
+    'High elevation can be colder, windier, wetter and foggier.',
+    CloudSun,
+  ],
+] as const;
 
 function SectionHead({
   eyebrow,
@@ -344,20 +234,20 @@ function RouteMap() {
   return (
     <div
       className="route-map"
-      aria-label="Stylized route map from Tampa to Cosby, Saturday trail options, Mount LeConte summit, and back to Tampa"
+      aria-label="Route from Tampa through Kuwohi, Pigeon Forge and Andrews Bald, then back to Tampa"
     >
       <div className="map-topline">
         <span>
-          <MapPinned size={15} /> Road trip route
+          <MapPinned size={15} /> Active trip route
         </span>
         <span className="approx-label">APPROXIMATE</span>
       </div>
       <svg
         className="route-svg"
         viewBox="0 0 100 100"
-        role="img"
-        aria-label="Six-stop Smokies trip route"
+        aria-label="Eight-stop Smokies route"
       >
+        <title>Eight-stop Great Smoky Mountains route</title>
         <path
           className="contour c1"
           d="M-4 35 C14 22 22 41 40 29 S72 5 104 22"
@@ -372,16 +262,17 @@ function RouteMap() {
         />
         <path
           className="route-shadow"
-          d="M20 80 C31 69 38 49 48 38 C52 38 54 43 57 45 C62 39 66 31 69 28 C69 42 64 53 59 59 C53 72 43 83 30 86"
+          d="M18 84 C30 69 41 43 51 31 C58 40 64 47 63 48 C67 40 70 31 72 27 C62 38 50 44 44 48 C47 36 52 25 55 20 C60 35 65 49 67 55 C54 72 42 84 28 90"
         />
         <path
           className="route-line"
-          d="M20 80 C31 69 38 49 48 38 C52 38 54 43 57 45 C62 39 66 31 69 28 C69 42 64 53 59 59 C53 72 43 83 30 86"
+          d="M18 84 C30 69 41 43 51 31 C58 40 64 47 63 48 C67 40 70 31 72 27 C62 38 50 44 44 48 C47 36 52 25 55 20 C60 35 65 49 67 55 C54 72 42 84 28 90"
         />
+        <path className="route-placeholder" d="M44 48 C48 38 52 27 55 20" />
       </svg>
       {routeStops.map((stop) => (
         <div
-          className={`route-stop stop-${stop.marker.toLowerCase()} ${"placeholder" in stop ? "placeholder" : ""}`}
+          className={`route-stop stop-${stop.marker.toLowerCase()} ${'placeholder' in stop ? 'placeholder' : ''}`}
           style={{ left: `${stop.x}%`, top: `${stop.y}%` }}
           key={stop.marker}
         >
@@ -397,7 +288,7 @@ function RouteMap() {
           <Moon size={13} /> Overnight north
         </span>
         <span>
-          <Mountain size={13} /> Mt. LeConte Peak
+          <Mountain size={13} /> 6,643-ft summit
         </span>
       </div>
     </div>
@@ -419,25 +310,19 @@ function Timeline() {
           <h3>{day.title}</h3>
           <p className="day-route">{day.label}</p>
           <div className="day-events">
-            {day.items.map((item, i) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  className={`event ${item.kind} ${item.strong ? "strong" : ""}`}
-                  key={item.title}
-                >
-                  <span className="event-icon">
-                    <Icon size={15} />
-                  </span>
-                  <div>
-                    <time>{item.time}</time>
-                    <strong>{item.title}</strong>
-                    <small>{item.meta}</small>
-                  </div>
-                  {i < day.items.length - 1 && <span className="event-line" />}
+            {day.items.map(([time, title, meta, Icon], i) => (
+              <div className="event" key={title}>
+                <span className="event-icon">
+                  <Icon size={15} />
+                </span>
+                <div>
+                  <time>{time}</time>
+                  <strong>{title}</strong>
+                  <small>{meta}</small>
                 </div>
-              );
-            })}
+                {i < day.items.length - 1 && <span className="event-line" />}
+              </div>
+            ))}
           </div>
         </article>
       ))}
@@ -445,628 +330,256 @@ function Timeline() {
   );
 }
 
-function FlagshipLeConte() {
-  const [showMilestones, setShowMilestones] = useState(false);
-
+function SaturdayStory() {
+  const phases = [
+    {
+      time: 'MORNING',
+      title: 'Kuwohi sunrise',
+      text: 'Drive to the parking area, walk about 0.5 mile uphill to the observation tower, and catch early mountain views if timing and weather cooperate.',
+      icon: Sunrise,
+      tone: 'morning',
+    },
+    {
+      time: 'MIDDAY',
+      title: 'Recovery + hotel gap',
+      text: 'Return to 4236 Parkway. Ask for free early check-in around noon. If unavailable, rest in the Camry only where legal and safe, eat cheaply and hydrate.',
+      icon: BedDouble,
+      tone: 'midday',
+    },
+    {
+      time: 'EVENING',
+      title: 'Andrews Bald sunset',
+      text: 'Descend 1.8 miles on Forney Ridge, relax at the bald, then climb uphill after dark with real headlamps.',
+      icon: Sunset,
+      tone: 'evening',
+    },
+  ];
   return (
-    <div className="flagship-leconte-card">
-      <div className="leconte-hero-art">
-        <Image
-          src="/images/trails/alum-cave.jpg"
-          alt="Alum Cave Bluffs and Mount LeConte cliff trails in the Smokies"
-          fill
-          sizes="(max-width: 1200px) 100vw, 1200px"
-          className="hike-photo"
-          priority
-        />
-        <div className="hike-photo-shade" />
-        <div className="leconte-hero-content">
-          <span className="flagship-badge">
-            <Mountain size={13} /> SUNDAY CONFIRMED FLAGSHIP SUMMIT
+    <section className="content-section" id="saturday">
+      <SectionHead
+        eyebrow="02 · SATURDAY VISUAL STORY"
+        title="Sunrise. Recovery. Sunset."
+        detail="One full day in three deliberate phases. Rest is part of the itinerary."
+      />
+      <div className="story-flow">
+        {phases.map(({ time, title, text, icon: Icon, tone }, index) => (
+          <article className={`story-phase ${tone}`} key={title}>
+            <span className="story-number">0{index + 1}</span>
+            <Icon size={24} />
+            <small>{time}</small>
+            <h3>{title}</h3>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+      <div className="sunrise-note">
+        <Sunrise size={19} />
+        <div>
+          <strong>SUNRISE · BEST EFFORT</strong>
+          <span>
+            Only if timing and conditions allow. Never speed. The tower and park
+            entrance are free; a $5/day parking tag applies for stops over 15
+            minutes.
           </span>
-          <h2>Alum Cave Trail to Mount LeConte</h2>
-          <p className="leconte-subtitle">
-            <MapPin size={14} /> Great Smoky Mountains NP · Newfound Gap Road (US-441) · 6,593 ft Summit
-          </p>
         </div>
       </div>
-
-      <div className="leconte-body">
-        <div className="leconte-metrics-grid">
-          <div className="metric-box">
-            <span>TOTAL DISTANCE</span>
-            <strong>11.0 mi RT</strong>
-            <small>Out-and-back trail</small>
-          </div>
-          <div className="metric-box">
-            <span>ELEVATION GAIN</span>
-            <strong>+2,763 ft</strong>
-            <small>3,830 ft → 6,593 ft</small>
-          </div>
-          <div className="metric-box">
-            <span>ESTIMATED TIME</span>
-            <strong>6–8 Hours</strong>
-            <small>Includes summit rest</small>
-          </div>
-          <div className="metric-box">
-            <span>DIFFICULTY</span>
-            <strong className="text-strenuous">Strenuous</strong>
-            <small>Exposed cliff ledges</small>
-          </div>
-        </div>
-
-        <p className="leconte-description">
-          The ultimate Appalachian mountain climb. This iconic trail takes you through a stone archway (Arch Rock), along high cliff ledges with hand-cable railings, beneath the massive 80-foot Alum Cave Bluffs overhang, and up to the historic LeConte Lodge (est. 1926) and panoramic Cliff Tops summit view (6,593 ft).
-        </p>
-
-        <div className="milestone-toggle-row">
-          <button
-            className="milestone-toggle-btn"
-            onClick={() => setShowMilestones(!showMilestones)}
-            aria-expanded={showMilestones}
-          >
-            <Compass size={15} />
-            <span>{showMilestones ? "Hide Landmark Progression" : "View Step-by-Step Landmark Progression (6 Milestones)"}</span>
-            <ChevronRight size={14} className={showMilestones ? "rotate-90" : ""} />
-          </button>
-        </div>
-
-        {showMilestones && (
-          <div className="milestone-timeline">
-            <div className="milestone-item">
-              <span className="mile-tag">1.4 MI</span>
-              <div>
-                <strong>Arch Rock</strong>
-                <p>Natural concavity carved into alum slate with stone staircase spiraling up through the rock archway.</p>
-              </div>
-            </div>
-            <div className="milestone-item">
-              <span className="mile-tag">2.0 MI</span>
-              <div>
-                <strong>Inspiration Point</strong>
-                <p>High mountain ledge providing sweeping valley vistas, Little Pigeon River views, and Duckhawk Ridge.</p>
-              </div>
-            </div>
-            <div className="milestone-item">
-              <span className="mile-tag">2.3 MI</span>
-              <div>
-                <strong>Alum Cave Bluffs</strong>
-                <p>Dramatic 80-foot high concave cliff face overhang. Popular shade break and historic saltpeter mining location.</p>
-              </div>
-            </div>
-            <div className="milestone-item">
-              <span className="mile-tag">3.0 MI</span>
-              <div>
-                <strong>The Ledge Cable Sections</strong>
-                <p>Narrow stone shelf pathways along sheer bluffs with heavy-duty steel hand-cables installed in rock for safety.</p>
-              </div>
-            </div>
-            <div className="milestone-item">
-              <span className="mile-tag">5.0 MI</span>
-              <div>
-                <strong>LeConte Lodge (6,400 ft)</strong>
-                <p>Historic high-elevation wilderness lodge established in 1926. No electricity, pack-mule supplied, drinking water refill.</p>
-              </div>
-            </div>
-            <div className="milestone-item">
-              <span className="mile-tag">5.3 MI</span>
-              <div>
-                <strong>Cliff Tops &amp; Myrtle Point Summit (6,593 ft)</strong>
-                <p>360-degree panoramic vista over the entire Appalachian range. The crowning payoff of the entire trip.</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div className="leconte-advisory-box">
-          <AlertTriangle size={18} className="advisory-icon" />
+      <div className="hotel-grid">
+        <article className="hotel-card">
+          <p className="section-kicker">CONFIRMED LODGING</p>
+          <h3>4236 Parkway</h3>
+          <p>Pigeon Forge, TN 37863</p>
+          <a href={hotelMap} target="_blank" rel="noreferrer">
+            Open hotel map <ExternalLink size={14} />
+          </a>
+        </article>
+        <article className="checkin-card">
           <div>
-            <strong>Critical Logistics Alert for Sunday:</strong>
-            <p>
-              The Alum Cave trailhead parking lot on US-441 fills completely before 7:30 AM on Labor Day Weekend. We must leave Cosby basecamp by 6:15 AM to secure parking! A $5 daily Smoky Mountains parking tag is mandatory.
-            </p>
+            <span>EARLY CHECK-IN</span>
+            <strong>UNCONFIRMED</strong>
           </div>
-        </div>
-
-        <div className="leconte-footer">
-          <dl className="ratings mini-ratings">
+          <dl>
             <div>
-              <dt>Panoramic Views</dt>
-              <dd>10 / 10</dd>
+              <dt>Expected hotel access</dt>
+              <dd>4:00 PM</dd>
             </div>
             <div>
-              <dt>Summit Payoff</dt>
-              <dd>10 / 10</dd>
+              <dt>Preferred</dt>
+              <dd>Free · around noon</dd>
             </div>
             <div>
-              <dt>Technical Thrill</dt>
-              <dd>9 / 10 <small>(Cables)</small></dd>
+              <dt>Acceptable</dt>
+              <dd>Very small fee only</dd>
             </div>
             <div>
-              <dt>Trailhead Parking</dt>
-              <dd>Arrive &lt; 7 AM</dd>
+              <dt>Avoid</dt>
+              <dd>Expensive early check-in</dd>
             </div>
           </dl>
-          <div className="trail-links">
-            <a
-              href="https://www.nps.gov/places/alum-cave-bluff-trail.htm"
-              target="_blank"
-              rel="noreferrer"
-            >
-              NPS Alum Cave Guide <ExternalLink size={13} />
-            </a>
-            <a
-              href="https://www.google.com/maps/search/?api=1&query=Alum+Cave+Trailhead+Great+Smoky+Mountains"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Open Trailhead Map <MapPin size={13} />
-            </a>
-          </div>
-        </div>
+          <blockquote>
+            “We drove overnight from Tampa and arrived early. If the room is
+            already clean and available, would a free early check-in around noon
+            be possible?”
+          </blockquote>
+        </article>
       </div>
-    </div>
+      <div className="schedule-card">
+        {[
+          ['4:00 PM', 'Hotel access if not already checked in'],
+          ['4:00–4:30', 'Shower · change · unload'],
+          ['~4:30–5:00', 'Leave hotel'],
+          ['~6:00', 'Target Kuwohi parking'],
+          ['~6:10', 'Start Forney Ridge Trail'],
+          ['~7:00–7:15', 'Reach Andrews Bald'],
+          ['LATE 7 PM', 'Approximate sunset'],
+          ['~9:15–9:30', 'Target return to parking'],
+        ].map(([time, title]) => (
+          <div key={title}>
+            <span>{time}</span>
+            <strong>{title}</strong>
+          </div>
+        ))}
+        <p>Approximate — weather / parking / traffic dependent.</p>
+      </div>
+    </section>
   );
 }
 
-function SaturdayTrailHub() {
-  const [filter, setFilter] = useState<string>("all");
-  const [selectedId, setSelectedId] = useState<string>("hen-wallow");
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem("selected-saturday-trail");
-      if (saved && saturdayCandidates.some((c) => c.id === saved)) {
-        setSelectedId(saved);
-      }
-    } catch {}
-    setLoaded(true);
-  }, []);
-
-  const handleSelect = (id: string) => {
-    setSelectedId(id);
-    if (typeof window !== "undefined") {
-      try {
-        localStorage.setItem("selected-saturday-trail", id);
-      } catch {}
-    }
-  };
-
-  const filteredCandidates = useMemo(() => {
-    if (filter === "cosby") {
-      return saturdayCandidates.filter((c) => c.driveFromCosby.includes("0 min") || c.driveFromCosby.includes("15 min"));
-    }
-    if (filter === "waterfall") {
-      return saturdayCandidates.filter((c) => c.category.toLowerCase().includes("waterfall") || c.category.toLowerCase().includes("stream"));
-    }
-    if (filter === "view") {
-      return saturdayCandidates.filter((c) => c.category.toLowerCase().includes("bald") || c.category.toLowerCase().includes("view"));
-    }
-    if (filter === "easy") {
-      return saturdayCandidates.filter((c) => c.difficulty === "Easy" || c.elevationGain.includes("395"));
-    }
-    return saturdayCandidates;
-  }, [filter]);
-
-  const activeCandidate = useMemo(
-    () => saturdayCandidates.find((c) => c.id === selectedId) || saturdayCandidates[0],
-    [selectedId]
-  );
-
+function SummitPlan() {
   return (
-    <div className="saturday-hub-container" id="saturday-selector">
-      <div className="saturday-hub-head">
-        <div>
-          <span className="hub-eyebrow">
-            <Sparkles size={14} /> SATURDAY TRAIL RESEARCH &amp; SELECTION
+    <section className="summit-section" id="sunday">
+      <div className="content-section summit-inner">
+        <div className="summit-copy">
+          <p className="section-kicker">03 · SUNDAY CENTERPIECE</p>
+          <span className="planning-badge">
+            <Route size={14} /> SUNDAY ROUTE · PLANNING IN PROGRESS
           </span>
-          <h2>Saturday Trail Explorer</h2>
+          <h2>Earn the summit.</h2>
           <p>
-            You haven't locked Saturday yet! Compare all 5 researched trails below to pick the best post-drive effort level before Sunday's Mount LeConte climb.
+            This is a real mountain ascent from lower elevation—not a drive to
+            the summit lot. The exact safe, practical route has not been
+            selected yet.
           </p>
-        </div>
-
-        <div className="active-selection-pill">
-          <CheckCircle2 size={18} className="pill-check" />
-          <div>
-            <span>CURRENT SATURDAY SELECTION</span>
-            <strong>{activeCandidate.name}</strong>
-            <small>{activeCandidate.distance} · {activeCandidate.driveFromCosby} from Cosby</small>
+          <div className="summit-sequence">
+            <span>REAL MOUNTAIN ASCENT</span>
+            <ArrowDown size={18} />
+            <span>KUWOHI SUMMIT</span>
+            <ArrowDown size={18} />
+            <strong>6,643 FT</strong>
+            <ArrowDown size={18} />
+            <span>OBSERVATION TOWER</span>
           </div>
         </div>
-      </div>
-
-      <div className="filter-bar">
-        <span className="filter-label">
-          <Filter size={13} /> Filter Candidates:
-        </span>
-        <div className="filter-buttons">
-          <button
-            className={filter === "all" ? "active" : ""}
-            onClick={() => setFilter("all")}
+        <div className="elevation-panel">
+          <div className="summit-marker">
+            <Mountain size={30} />
+            <strong>6,643 FT</strong>
+            <span>KUWOHI SUMMIT</span>
+          </div>
+          <svg
+            viewBox="0 0 600 260"
+            aria-label="Conceptual elevation profile ending at Kuwohi summit"
           >
-            All Candidates ({saturdayCandidates.length})
-          </button>
-          <button
-            className={filter === "cosby" ? "active" : ""}
-            onClick={() => setFilter("cosby")}
-          >
-            Near Cosby (&le;15m drive)
-          </button>
-          <button
-            className={filter === "waterfall" ? "active" : ""}
-            onClick={() => setFilter("waterfall")}
-          >
-            Waterfalls &amp; Rivers
-          </button>
-          <button
-            className={filter === "view" ? "active" : ""}
-            onClick={() => setFilter("view")}
-          >
-            High Ridge Views
-          </button>
-          <button
-            className={filter === "easy" ? "active" : ""}
-            onClick={() => setFilter("easy")}
-          >
-            Light / Easy Recovery
-          </button>
+            <title>Conceptual elevation profile ending at Kuwohi summit</title>
+            <path
+              className="elevation-fill"
+              d="M0 250 L0 225 C90 220 110 190 170 184 C240 178 250 142 320 136 C395 129 420 80 485 71 C535 64 556 28 600 18 L600 260 Z"
+            />
+            <path
+              className="elevation-line"
+              d="M0 225 C90 220 110 190 170 184 C240 178 250 142 320 136 C395 129 420 80 485 71 C535 64 556 28 600 18"
+            />
+          </svg>
+        </div>
+        <div className="route-status-grid">
+          {[
+            ['ROUTE', 'TBD'],
+            ['TRAILHEAD', 'TBD'],
+            ['DISTANCE', 'TBD'],
+            ['ELEVATION GAIN', 'TBD'],
+            ['ESTIMATED TIME', 'TBD'],
+          ].map(([label, value]) => (
+            <div key={label}>
+              <span>{label}</span>
+              <strong>{value}</strong>
+            </div>
+          ))}
+        </div>
+        <div className="route-goals">
+          <strong>DESIRED ROUTE CHARACTERISTICS</strong>
+          <span>Legitimate lower-elevation climb</span>
+          <span>Scenic + challenging</span>
+          <span>Realistic day hike</span>
+          <span>Ideally 7–11 miles</span>
+          <span>Roughly 2,000–3,000 ft climbing</span>
+          <span>Approximately 5–7 hours</span>
+          <span>No 15–20+ mile sufferfest</span>
+        </div>
+        <div className="day-chain">
+          Wake up <ArrowDown /> Breakfast <ArrowDown /> Selected trailhead{' '}
+          <ArrowDown /> Big summit hike <ArrowDown /> Kuwohi <ArrowDown />{' '}
+          Photos + rest <ArrowDown /> Descend <ArrowDown /> Food + hotel
         </div>
       </div>
-
-      <div className="candidate-grid">
-        {filteredCandidates.map((candidate) => {
-          const isSelected = candidate.id === selectedId;
-          return (
-            <article
-              key={candidate.id}
-              className={`candidate-card ${isSelected ? "selected-candidate" : ""}`}
-            >
-              <div className="candidate-art">
-                <Image
-                  src={candidate.image}
-                  alt={candidate.imageAlt}
-                  fill
-                  sizes="(max-width: 800px) 100vw, 33vw"
-                  className="hike-photo"
-                />
-                <div className="hike-photo-shade" />
-                <span className="candidate-tag">{candidate.tag}</span>
-                {isSelected && (
-                  <span className="active-badge">
-                    <Check size={12} /> SATURDAY CHOICE
-                  </span>
-                )}
-                <div className="candidate-title-overlay">
-                  <h3>{candidate.name}</h3>
-                  <p>{candidate.category}</p>
-                </div>
-              </div>
-
-              <div className="candidate-body">
-                <div className="candidate-metrics">
-                  <div>
-                    <span>DISTANCE</span>
-                    <strong>{candidate.distance}</strong>
-                  </div>
-                  <div>
-                    <span>ELEVATION</span>
-                    <strong>{candidate.elevationGain}</strong>
-                  </div>
-                  <div>
-                    <span>DRIVE FROM Airbnb</span>
-                    <strong>{candidate.driveFromCosby}</strong>
-                  </div>
-                </div>
-
-                <p className="candidate-desc">{candidate.description}</p>
-
-                <div className="rec-box">
-                  <ThumbsUp size={13} />
-                  <span><strong>Ideal for:</strong> {candidate.recommendedFor}</span>
-                </div>
-
-                <div className="pro-con-grid">
-                  <div className="pro-box">
-                    <strong>PRO:</strong> {candidate.pros}
-                  </div>
-                  <div className="con-box">
-                    <strong>CON:</strong> {candidate.cons}
-                  </div>
-                </div>
-
-                <ul className="highlights-list">
-                  {candidate.highlights.map((hl) => (
-                    <li key={hl}>
-                      <Check size={12} /> {hl}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="candidate-actions">
-                  <button
-                    className={`select-btn ${isSelected ? "is-selected" : ""}`}
-                    onClick={() => handleSelect(candidate.id)}
-                  >
-                    {isSelected ? (
-                      <>
-                        <Check size={14} /> Selected for Saturday
-                      </>
-                    ) : (
-                      <>Select for Saturday</>
-                    )}
-                  </button>
-
-                  <div className="candidate-links">
-                    <a
-                      href={candidate.trailUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={`Official NPS details for ${candidate.name}`}
-                    >
-                      Details <ExternalLink size={12} />
-                    </a>
-                    <a
-                      href={candidate.mapUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={`Open map for ${candidate.name}`}
-                    >
-                      Map <MapPin size={12} />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </article>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-function Hikes() {
-  return (
-    <section className="content-section" id="hikes">
-      <SectionHead
-        eyebrow="02 · TRAILS & SUMMITS"
-        title="Flagship LeConte Peak. 5 Researched Saturday Options."
-        detail="Sunday is locked for Mount LeConte via Alum Cave Trail (6,593 ft peak). Review and select your preferred Saturday recovery hike below!"
-      />
-
-      <FlagshipLeConte />
-
-      <SaturdayTrailHub />
     </section>
   );
 }
 
 function Lodging() {
   return (
-    <section className="content-section" id="stays">
+    <section className="content-section" id="hotel">
       <SectionHead
-        eyebrow="03 · WHERE WE SLEEP"
-        title="One stay locked. One still open."
-        detail="Saturday is confirmed at $177 total. Sunday carries a $175 planning estimate until the group books it."
+        eyebrow="04 · PIGEON FORGE BASE"
+        title="One confirmed home base."
+        detail="Normal access begins at 4 PM Saturday. Earlier room access is a request, not a promise."
       />
-      <div className="lodging-grid">
-        {stays.map((stay, index) => {
-          const Icon = stay.icon;
-          return (
-            <article className="stay-card" key={stay.title}>
-              <div className="stay-visual">
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <Icon size={48} />
-                <div className="mini-contours" />
-              </div>
-              <div className="stay-body">
-                <div className="stay-label">
-                  <span>{stay.night}</span>
-                  <span>{stay.confirmed ? "CONFIRMED" : "TBD"}</span>
-                </div>
-                <h3>{stay.title}</h3>
-                <p className="stay-subtitle">{stay.subtitle}</p>
-                <p className="stay-location">
-                  <MapPin size={14} />
-                  {stay.location}
-                </p>
-                <div className="amenities">
-                  {stay.amenities.map((a) => (
-                    <span key={a}>{a}</span>
-                  ))}
-                </div>
-                <div className="stay-bottom">
-                  <div>
-                    <small>{stay.date}</small>
-                    <strong>
-                      {stay.confirmed
-                        ? `$${formatMoney(stay.price)} total`
-                        : `$${formatMoney(stay.price)} expected`}{" "}
-                    </strong>
-                  </div>
-                  {stay.confirmed ? (
-                    <a
-                      className="stay-link"
-                      href={stay.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={`Open ${stay.title} on Airbnb`}
-                    >
-                      <span>Open Airbnb</span>
-                      <ExternalLink size={15} />
-                    </a>
-                  ) : (
-                    <span className="tbd-lodging-badge">Not booked</span>
-                  )}
-                </div>
-              </div>
-            </article>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
-
-function Budget() {
-  const [scenario, setScenario] = useState<BudgetScenario>("expected");
-  const [expenseValues, setExpenseValues] = useState(() =>
-    Object.fromEntries(
-      (["best", "expected", "worst"] as BudgetScenario[]).map((name) => [
-        name,
-        Object.fromEntries(
-          budgetCategories.map((category) => [category.id, category[name]]),
-        ),
-      ]),
-    ) as Record<BudgetScenario, Record<string, number>>,
-  );
-  const categories = useMemo(
-    () =>
-      budgetCategories.map((category) => ({
-        ...category,
-        value: expenseValues[scenario][category.id],
-      })),
-    [expenseValues, scenario],
-  );
-  const totalsByScenario = useMemo(
-    () =>
-      Object.fromEntries(
-        (["best", "expected", "worst"] as BudgetScenario[]).map((name) => [
-          name,
-          Object.values(expenseValues[name]).reduce((sum, value) => sum + value, 0),
-        ]),
-      ) as Record<BudgetScenario, number>,
-    [expenseValues],
-  );
-  const total = totalsByScenario[scenario];
-  const perPerson = total / trip.travelers;
-  const updateExpense = (id: string, value: number) => {
-    setExpenseValues((current) => ({
-      ...current,
-      [scenario]: {
-        ...current[scenario],
-        [id]: Math.max(0, Number.isFinite(value) ? value : 0),
-      },
-    }));
-  };
-  return (
-    <section className="budget-section" id="budget">
-      <div className="content-section budget-inner">
-        <SectionHead
-          eyebrow="05 · TRIP BUDGET"
-          title="Budget-conscious road trip."
-          detail="Keep unnecessary costs low, prioritize hiking and scenery, and adjust estimates as plans are finalized."
-        />
-        <div className="scenario-bar" role="group" aria-label="Budget scenario">
-          {(["best", "expected", "worst"] as BudgetScenario[]).map((s) => (
-            <button
-              className={scenario === s ? "active" : ""}
-              onClick={() => setScenario(s)}
-              key={s}
-            >
-              {s === "worst" ? "High / worst reasonable" : `${s} case`}
-              <span>${formatMoney(totalsByScenario[s])}</span>
-            </button>
-          ))}
+      <div className="lodging-single">
+        <div>
+          <MapPin size={28} />
+          <span>CONFIRMED</span>
+          <h3>4236 Parkway</h3>
+          <p>Pigeon Forge, TN 37863</p>
         </div>
-        <div className="budget-dashboard">
-          <div className="budget-main">
-            <div className="budget-numbers">
-              <div>
-                <span>TOTAL TRIP COST</span>
-                <strong key={total}>${formatMoney(total)}</strong>
-                <small>{scenario} case estimate</small>
-              </div>
-              <div>
-                <span>ESTIMATED COST PER PERSON</span>
-                <strong key={perPerson}>${perPerson.toFixed(2)}</strong>
-                <small>Total trip cost ÷ 3</small>
-              </div>
-            </div>
-            <div className="stacked-bar" aria-label="Cost breakdown">
-              {categories.map((c) => (
-                <span
-                  style={{
-                    width: `${total > 0 ? (c.value / total) * 100 : 0}%`,
-                    background: c.color,
-                  }}
-                  title={`${c.label}: $${c.value}`}
-                  key={c.id}
-                />
-              ))}
-            </div>
-            <div className="cost-list">
-              {categories.map((c) => (
-                <div key={c.id}>
-                  <span>
-                    <i style={{ background: c.color }} />
-                    {c.label}
-                    <em>EDITABLE</em>
-                  </span>
-                  <label className="expense-input">
-                    <span className="sr-only">Edit {c.label} estimate</span>
-                    <span aria-hidden="true">$</span>
-                    <input
-                      type="number"
-                      min="0"
-                      step="1"
-                      inputMode="decimal"
-                      value={c.value}
-                      onChange={(event) =>
-                        updateExpense(c.id, event.currentTarget.valueAsNumber)
-                      }
-                    />
-                  </label>
-                </div>
-              ))}
-            </div>
-          </div>
-          <aside className="split-panel">
-            <p>TRIP-LEVEL ESTIMATE</p>
-            <div className="traveler-count">
-              <span>TRAVELERS</span>
-              <strong>3</strong>
-            </div>
-            <div className="split-result">
-              <span>Estimated cost per person</span>
-              <strong>${perPerson.toFixed(2)}</strong>
-            </div>
-            <div className="subtotals">
-              <p>
-                <span>Free national park experiences</span>
-                <b>Prioritized</b>
-              </p>
-              <p>
-                <span>Groceries</span>
-                <b>&gt; restaurant stops</b>
-              </p>
-              <p>
-                <span>Tourist attractions</span>
-                <b>Skip expensive ones</b>
-              </p>
-            </div>
-            <div className="budget-callout">
-              <ShieldAlert size={19} />
-              <div>
-                <strong>Keep unnecessary costs low</strong>
-                <span>Prioritize hiking, scenery and free activities</span>
-              </div>
-            </div>
-          </aside>
+        <div>
+          <span>NORMAL CHECK-IN</span>
+          <strong>4:00 PM SATURDAY</strong>
+          <small>Expected arrival in the area: approximately 6–8 AM</small>
         </div>
+        <a href={hotelMap} target="_blank" rel="noreferrer">
+          Open hotel map <ExternalLink size={15} />
+        </a>
       </div>
     </section>
   );
 }
 
 function DecisionStatus() {
+  const confirmed = [
+    '3 travelers',
+    'Toyota Camry Hybrid',
+    'Friday 8 PM departure',
+    'Pigeon Forge lodging',
+    '4236 Parkway',
+    'Saturday 4 PM normal check-in',
+    'Saturday Kuwohi sunrise attempt',
+    'Saturday Andrews Bald sunset',
+    'Sunday = real Kuwohi summit hike',
+    'Monday 10 AM departure for Tampa',
+    'No Virginia',
+  ];
+  const open = [
+    'Free early check-in',
+    'Legal Saturday rest/sleep location if early check-in fails',
+    'Exact Sunday Kuwohi ascent route',
+    'Exact Camry rental total',
+    'Exact lodging total',
+    'Final gas estimate',
+  ];
   return (
     <section className="content-section decision-section" id="decisions">
       <SectionHead
-        eyebrow="04 · DECISION STATUS"
+        eyebrow="05 · DECISION STATUS"
         title="What’s locked. What still moves."
-        detail="Mount LeConte peak hike is confirmed; Saturday trail option and Sunday lodging remain to be finalized."
+        detail="The shape of the weekend is final. Only practical cost and route details remain open."
       />
       <div className="decision-grid">
         <article className="decision-card confirmed">
@@ -1074,11 +587,11 @@ function DecisionStatus() {
             <CheckCircle2 size={18} />
             <div>
               <span>CONFIRMED</span>
-              <strong>{decisions.confirmed.length} decisions locked</strong>
+              <strong>{confirmed.length} decisions locked</strong>
             </div>
           </div>
           <ul>
-            {decisions.confirmed.map((item) => (
+            {confirmed.map((item) => (
               <li key={item}>
                 <Check size={13} /> {item}
               </li>
@@ -1090,11 +603,11 @@ function DecisionStatus() {
             <Route size={18} />
             <div>
               <span>IN PROGRESS</span>
-              <strong>{decisions.inProgress.length} items to resolve</strong>
+              <strong>{open.length} items to resolve</strong>
             </div>
           </div>
           <ul>
-            {decisions.inProgress.map((item) => (
+            {open.map((item) => (
               <li key={item}>
                 <span className="open-dot" /> {item}
               </li>
@@ -1106,38 +619,185 @@ function DecisionStatus() {
   );
 }
 
+function Budget() {
+  const [scenario, setScenario] = useState<BudgetScenario>('expected');
+  const [values, setValues] = useState(
+    () =>
+      Object.fromEntries(
+        budgetScenarios.map((name) => [
+          name,
+          Object.fromEntries(budgetCategories.map((c) => [c.id, c[name]])),
+        ]),
+      ) as Record<BudgetScenario, Record<string, number>>,
+  );
+  const categories = useMemo(
+    () =>
+      budgetCategories.map((c) => ({ ...c, value: values[scenario][c.id] })),
+    [scenario, values],
+  );
+  const totals = useMemo(
+    () =>
+      Object.fromEntries(
+        budgetScenarios.map((name) => [
+          name,
+          Object.values(values[name]).reduce((sum, value) => sum + value, 0),
+        ]),
+      ) as Record<BudgetScenario, number>,
+    [values],
+  );
+  const total = totals[scenario];
+  const incomplete = categories.some((c) => c.pending && c.value === 0);
+  const update = (id: string, value: number) =>
+    setValues((current) => ({
+      ...current,
+      [scenario]: {
+        ...current[scenario],
+        [id]: Math.max(0, Number.isFinite(value) ? value : 0),
+      },
+    }));
+  return (
+    <section className="budget-section" id="budget">
+      <div className="content-section budget-inner">
+        <SectionHead
+          eyebrow="06 · TRIP BUDGET"
+          title="Shared trip costs only."
+          detail="Rental and lodging are still TBD. Edit each scenario as quotes are finalized; early check-in starts at $0."
+        />
+        <fieldset className="scenario-bar">
+          <legend className="sr-only">Budget scenario</legend>
+          {budgetScenarios.map((name) => (
+            <button
+              className={scenario === name ? 'active' : ''}
+              onClick={() => setScenario(name)}
+              key={name}
+            >
+              {name}
+              <span>${money(totals[name])}+</span>
+            </button>
+          ))}
+        </fieldset>
+        <div className="budget-dashboard">
+          <div className="budget-main">
+            <div className="budget-numbers">
+              <div>
+                <span>TOTAL TRIP COST</span>
+                <strong>
+                  ${money(total)}
+                  {incomplete ? '+' : ''}
+                </strong>
+                <small>
+                  {incomplete
+                    ? 'Known estimates · rental and lodging still TBD'
+                    : `${scenario} estimate`}
+                </small>
+              </div>
+              <div>
+                <span>COST PER PERSON</span>
+                <strong>
+                  ${(total / 3).toFixed(2)}
+                  {incomplete ? '+' : ''}
+                </strong>
+                <small>Total trip cost ÷ 3</small>
+              </div>
+            </div>
+            <div className="stacked-bar">
+              {categories.map((c) => (
+                <span
+                  key={c.id}
+                  style={{
+                    width: `${total ? (c.value / total) * 100 : 0}%`,
+                    background: c.color,
+                  }}
+                />
+              ))}
+            </div>
+            <div className="cost-list">
+              {categories.map((c) => (
+                <div key={c.id}>
+                  <span>
+                    <i style={{ background: c.color }} />
+                    {c.label}
+                    <em>{c.pending && c.value === 0 ? 'TBD' : 'EDITABLE'}</em>
+                  </span>
+                  <label className="expense-input">
+                    <span className="sr-only">Edit {c.label}</span>
+                    <span aria-hidden="true">$</span>
+                    <input
+                      type="number"
+                      min="0"
+                      step="1"
+                      inputMode="decimal"
+                      value={c.value}
+                      onChange={(event) =>
+                        update(c.id, event.currentTarget.valueAsNumber)
+                      }
+                    />
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
+          <aside className="split-panel">
+            <p>PUBLIC TRIP ESTIMATE</p>
+            <div className="traveler-count">
+              <span>TRAVELERS</span>
+              <strong>3</strong>
+            </div>
+            <div className="split-result">
+              <span>Approximate cost per person</span>
+              <strong>${(total / 3).toFixed(2)}+</strong>
+            </div>
+            <div className="subtotals">
+              <p>
+                <span>Park entrance</span>
+                <b>Free</b>
+              </p>
+              <p>
+                <span>Parking tag</span>
+                <b>$5/day</b>
+              </p>
+              <p>
+                <span>Early check-in default</span>
+                <b>$0</b>
+              </p>
+            </div>
+            <div className="budget-callout">
+              <ShieldAlert size={19} />
+              <div>
+                <strong>Keep unnecessary costs low</strong>
+                <span>Hiking, scenery and groceries first</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Logistics() {
   return (
     <section className="content-section" id="logistics">
       <SectionHead
-        eyebrow="06 · DO NOT MISS"
-        title="Seven things can make or break the weekend."
-        detail="Alum Cave early parking, ledge hand-cables, summit weather and Sunday lodging need active group coordination."
+        eyebrow="07 · SAFETY & LOGISTICS"
+        title="The details that protect the weekend."
+        detail="Timing is flexible. Safety, recovery and reliable equipment are not."
       />
       <div className="alert-grid">
-        {alerts.map((alert) => {
-          const Icon = alert.icon;
-          return (
-            <article className={`alert-card ${alert.level}`} key={alert.title}>
-              <div className="alert-icon">
-                <Icon size={19} />
+        {alerts.map(([title, text, Icon]) => (
+          <article className="alert-card" key={title}>
+            <div className="alert-icon">
+              <Icon size={19} />
+            </div>
+            <div>
+              <div className="alert-top">
+                <h3>{title}</h3>
+                <span>IMPORTANT</span>
               </div>
-              <div>
-                <div className="alert-top">
-                  <h3>{alert.title}</h3>
-                  <span>{alert.status}</span>
-                </div>
-                <p>{alert.text}</p>
-              </div>
-            </article>
-          );
-        })}
-      </div>
-      <div className="parking-note">
-        <AlertTriangle size={18} />
-        <p>
-          <strong>Alum Cave &amp; Park Parking:</strong> Great Smoky Mountains National Park requires a $5 daily parking tag per vehicle for any stop over 15 minutes. The Alum Cave Trailhead lot fills very early (by 7:00 AM) on holiday weekends. Plan for a 6:00 AM departure from Cosby.
-        </p>
+              <p>{text}</p>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );
@@ -1149,15 +809,17 @@ function Packing() {
   useEffect(() => {
     try {
       const saved = JSON.parse(
-        localStorage.getItem("mountain-run-packing") || "[]",
+        localStorage.getItem('mountain-run-packing') || '[]',
       ) as string[];
-      setChecked(saved.filter((item) => packing.includes(item)));
+      queueMicrotask(() =>
+        setChecked(saved.filter((item) => packing.includes(item))),
+      );
     } catch {}
-    setLoaded(true);
+    queueMicrotask(() => setLoaded(true));
   }, []);
   useEffect(() => {
     if (loaded)
-      localStorage.setItem("mountain-run-packing", JSON.stringify(checked));
+      localStorage.setItem('mountain-run-packing', JSON.stringify(checked));
   }, [checked, loaded]);
   const toggle = (item: string, value: boolean) =>
     setChecked((old) =>
@@ -1168,11 +830,11 @@ function Packing() {
       <div className="content-section">
         <div className="packing-head">
           <div>
-            <p className="section-kicker">07 · PACKING</p>
+            <p className="section-kicker">08 · PACKING</p>
             <h2>
               Ready means {packing.length}/{packing.length}.
             </h2>
-            <p>Your checklist saves automatically on this device.</p>
+            <p>Headlamps, layers and water are mission-critical.</p>
           </div>
           <div className="packing-progress">
             <strong>{checked.length}</strong>
@@ -1187,7 +849,7 @@ function Packing() {
         <div className="packing-grid">
           {packing.map((item) => (
             <label
-              className={checked.includes(item) ? "checked" : ""}
+              className={checked.includes(item) ? 'checked' : ''}
               key={item}
             >
               <Checkbox
@@ -1209,20 +871,55 @@ function Packing() {
   );
 }
 
+function QuickActions() {
+  const [copied, setCopied] = useState(false);
+  const copyAddress = async () => {
+    await navigator.clipboard.writeText(trip.hotelAddress);
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1800);
+  };
+  return (
+    <nav className="quick-actions" aria-label="Trip quick actions">
+      <a href={hotelMap} target="_blank" rel="noreferrer">
+        <MapPin />
+        Open hotel map
+      </a>
+      <a href={kuwohiMap} target="_blank" rel="noreferrer">
+        <Mountain />
+        Open Kuwohi map
+      </a>
+      <a href="#saturday">
+        <Sunset />
+        Saturday plan
+      </a>
+      <a href="#sunday">
+        <Footprints />
+        Sunday plan
+      </a>
+      <a href="#packing">
+        <Check />
+        Packing list
+      </a>
+      <a href="#budget">
+        <span>$</span>Budget
+      </a>
+      <button onClick={copyAddress}>
+        <Copy />
+        {copied ? 'Address copied' : 'Copy hotel address'}
+      </button>
+    </nav>
+  );
+}
+
 export default function HomePage() {
   const [dark, setDark] = useState(true);
-  useEffect(
-    () => document.documentElement.classList.toggle("dark", dark),
-    [dark],
-  );
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', dark);
+  }, [dark]);
   return (
     <main>
       <header className="site-header">
-        <a
-          className="brand"
-          href="#top"
-          aria-label="Labor Day Mountain Run home"
-        >
+        <a className="brand" href="#top">
           <span className="brand-mark">
             <Mountain size={17} />
           </span>
@@ -1230,21 +927,21 @@ export default function HomePage() {
             Mountain Run <small>LDW ’26</small>
           </span>
         </a>
-        <nav aria-label="Trip sections">
+        <nav>
           <a href="#itinerary">Itinerary</a>
-          <a href="#hikes">Hikes &amp; Summits</a>
-          <a href="#saturday-selector">Saturday Explorer</a>
-          <a href="#stays">Stays</a>
+          <a href="#saturday">Saturday</a>
+          <a href="#sunday">Summit</a>
+          <a href="#hotel">Hotel</a>
           <a href="#budget">Budget</a>
           <a href="#packing">Packing</a>
         </nav>
         <button
           className="theme-button"
-          onClick={() => setDark((v) => !v)}
-          aria-label={`Switch to ${dark ? "light" : "dark"} mode`}
+          onClick={() => setDark((value) => !value)}
+          aria-label={`Switch to ${dark ? 'light' : 'dark'} mode`}
         >
           <Moon size={16} />
-          <span>{dark ? "Dark" : "Light"}</span>
+          <span>{dark ? 'Dark' : 'Light'}</span>
         </button>
       </header>
       <section className="hero" id="top">
@@ -1255,14 +952,15 @@ export default function HomePage() {
           <h1>{trip.title}</h1>
           <p className="route-title">{trip.subtitle}</p>
           <p className="lede">
-            Mount LeConte via Alum Cave Trail confirmed for Sunday’s 6,593 ft flagship summit climb, plus 5 researched Saturday trail options ready for group selection.
+            Three friends. One overnight drive. Kuwohi sunrise, Andrews Bald
+            sunset, and a real 6,643-ft summit ascent.
           </p>
           <div className="hero-actions">
-            <a className="primary-button" href="#hikes">
-              View LeConte Climb <ArrowDown size={16} />
+            <a className="primary-button" href="#itinerary">
+              View final plan <ArrowDown size={16} />
             </a>
-            <a className="secondary-button" href="#saturday-selector">
-              Saturday Hub <span>5 Candidates</span>
+            <a className="secondary-button" href="#sunday">
+              Summit plan <span>Route TBD</span>
             </a>
           </div>
           <dl className="hero-facts">
@@ -1278,7 +976,7 @@ export default function HomePage() {
                 <Users size={15} />
                 Crew
               </dt>
-              <dd>{trip.travelers} travelers</dd>
+              <dd>3 travelers</dd>
             </div>
             <div>
               <dt>
@@ -1289,38 +987,44 @@ export default function HomePage() {
             </div>
           </dl>
           <p className="hero-plan-meta">
-            Mt. LeConte Confirmed · 5 Saturday Candidates · 1 Airbnb Confirmed
+            Kuwohi Sunrise · Andrews Bald Sunset · Kuwohi Summit Hike · 6,643 FT
           </p>
         </div>
         <RouteMap />
       </section>
-      <section className="stat-strip" aria-label="Trip summary">
+      <section className="stat-strip">
         <div>
-          <strong>6,593 ft</strong>
-          <span>Mt. LeConte Summit</span>
+          <strong>3</strong>
+          <span>Travelers</span>
         </div>
         <div>
-          <strong>11.0 mi</strong>
-          <span>Alum Cave Climb</span>
+          <strong>6,643 ft</strong>
+          <span>Summit</span>
         </div>
         <div>
-          <strong>5</strong>
-          <span>Saturday Options</span>
+          <strong>1</strong>
+          <span>Sunrise</span>
         </div>
         <div>
-          <strong>~$223</strong>
-          <span>Expected / person</span>
+          <strong>1</strong>
+          <span>Sunset</span>
+        </div>
+        <div>
+          <strong>1</strong>
+          <span>Big summit hike</span>
         </div>
       </section>
+      <QuickActions />
       <section className="content-section" id="itinerary">
         <SectionHead
-          eyebrow="01 · THE PLAN"
-          title="Four days. Every critical handoff visible."
-          detail="Timing remains approximate where bookings and exact drive windows are not confirmed."
+          eyebrow="01 · FINAL ITINERARY"
+          title="Four days. One mountain story."
+          detail="Tampa Friday at 8 PM. Pigeon Forge and the Smokies all weekend. Homebound Monday at 10 AM."
         />
         <Timeline />
       </section>
-      <Hikes />
+      <SaturdayStory />
+      <SummitPlan />
       <Lodging />
       <DecisionStatus />
       <Budget />
@@ -1329,14 +1033,14 @@ export default function HomePage() {
       <footer>
         <div>
           <span className="brand-mark">
-            <Mountain size={17} />
+            <Trees size={15} />
           </span>
           <p>
             <strong>Labor Day Mountain Run</strong>
-            <small>Tampa → Great Smoky Mountains → Tampa</small>
+            <small>Great Smoky Mountains · 2026</small>
           </p>
         </div>
-        <p>Sept 4–7, 2026 · Plan responsibly. Hike safely.</p>
+        <p>Timing is approximate. Safety and recovery come first.</p>
       </footer>
     </main>
   );
